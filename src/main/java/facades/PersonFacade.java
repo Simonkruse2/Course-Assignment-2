@@ -8,7 +8,6 @@ import javax.persistence.Persistence;
 
 /**
  *
- * Rename Class to a relevant name Add add relevant facade methods
  */
 public class PersonFacade {
 
@@ -36,15 +35,36 @@ public class PersonFacade {
         return emf.createEntityManager();
     }
     
-    //TODO Remove/Change this before use
-    public long getRenameMeCount(){
+    
+    // Get information about a company, given a phone number or cvr (red).
+    public void getCompanyInfo(){
+        
+    }
+    
+    
+    // Get all persons with a given hobby
+    public void getAllPersons(){
+        
+    }
+    
+    // Get all persons living in a given city (i.e. 2800 Lyngby)
+    public void getZipCodes(){
+        
+    }
+    
+    // Get the count of people with a given hobby
+    public int getCountPeopleWithHobby(){
         EntityManager em = emf.createEntityManager();
         try{
-            long renameMeCount = (long)em.createQuery("SELECT COUNT(r) FROM RenameMe r").getSingleResult();
+            int renameMeCount = (int)em.createQuery("SELECT COUNT(r) FROM Person r where").getSingleResult();
             return renameMeCount;
         }finally{  
             em.close();
         }
+    }
+    
+    // Get a list of all zip codes in Denmark
+    public void getAllZipCodes(){
         
     }
 
