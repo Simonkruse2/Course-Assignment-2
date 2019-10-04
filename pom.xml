@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>dat.sem3.oas</groupId>
-    <artifactId>Course-Assignment-2</artifactId>
+    <artifactId>course-assignment-2</artifactId>
     <version>1.0.1</version>
     <packaging>war</packaging>
 
-    <name>Course-Assignment-2</name>
+    <name>course-assignment-2</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
@@ -176,8 +176,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <compilerArguments>
                         <endorseddirs>${endorsed.dir}</endorseddirs>
                     </compilerArguments>
