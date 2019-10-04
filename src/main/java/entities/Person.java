@@ -1,10 +1,12 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 
 
@@ -15,47 +17,98 @@ public class Person implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int ID;
+    private String email;
+    private String firstName;
+    private String lastName;
+    
+    
+    @ManyToMany
+    private Hobby hob;
     
     public Person() {
     }
+
+    public Person(String email, String firstName, String lastName) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
         
-    public Long getId() {
-        return id;
+    public int getID() {
+        return ID;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" + "ID=" + ID + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 97 * hash + this.ID;
+        hash = 97 * hash + Objects.hashCode(this.email);
+        hash = 97 * hash + Objects.hashCode(this.firstName);
+        hash = 97 * hash + Objects.hashCode(this.lastName);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Person other = (Person) obj;
+        if (this.ID != other.ID) {
+            return false;
+        }
+        if (!Objects.equals(this.email, other.email)) {
+            return false;
+        }
+        if (!Objects.equals(this.firstName, other.firstName)) {
+            return false;
+        }
+        if (!Objects.equals(this.lastName, other.lastName)) {
+            return false;
+        }
+        return true;
     }
     
-    // TODO, delete this class, or rename to an Entity class that makes sense for what you are about to do
-    // Delete EVERYTHING below if you decide to use this class, it's dummy data used for the initial demo
-    private String dummyStr1;
-    private String dummyStr2;
-
-    public Person(String dummyStr1, String dummyStr2) {
-        this.dummyStr1 = dummyStr1;
-        this.dummyStr2 = dummyStr2;
-    }
-
-    public String getDummyStr1() {
-        return dummyStr1;
-    }
-
-    public void setDummyStr1(String dummyStr1) {
-        this.dummyStr1 = dummyStr1;
-    }
-
-    public String getDummyStr2() {
-        return dummyStr2;
-    }
-
-    public void setDummyStr2(String dummyStr2) {
-        this.dummyStr2 = dummyStr2;
-    }
     
     
-    
-
-   
 }
