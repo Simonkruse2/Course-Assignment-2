@@ -23,8 +23,8 @@ public class Person implements Serializable {
     private String lastName;
     
     
-    @ManyToMany
-    private Hobby hob;
+//    @ManyToMany
+//    private Hobby hob;
     
     public Person() {
     }
