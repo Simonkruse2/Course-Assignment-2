@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,9 +23,8 @@ public class Person implements Serializable {
     private String firstName;
     private String lastName;
     
-    
 //    @ManyToMany
-//    private Hobby hob;
+//    private ArrayList<Hobby> hobbies = new ArrayList();
     
     public Person() {
     }

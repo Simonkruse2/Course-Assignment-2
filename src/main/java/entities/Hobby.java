@@ -6,11 +6,13 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 /**
  *
@@ -25,6 +27,9 @@ public class Hobby implements Serializable {
     private int ID;
     private String name;
     private String description;
+    
+//    @ManyToMany
+//    private ArrayList<Person> persons = new ArrayList();
 
     public Hobby() {
     }
