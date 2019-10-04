@@ -20,12 +20,12 @@ services:
 before_script:
 
 # TODO Add variable to make it simple to be reusable for all semester projects
-#- export DEBIAN_FRONTEND="noninteractive";
-#- PW="ax2"
-#- USER_NAME="dev"
+- export DEBIAN_FRONTEND="noninteractive";
+- PW="ax2"
+- USER_NAME="dev"
 
-#- sudo apt-get clean
-#- sudo rm -r /var/lib/apt/lists/*
+- sudo apt-get clean
+- sudo rm -r /var/lib/apt/lists/*
 
 # HACK to fix a problem on travis
 - sudo apt-get update || true
