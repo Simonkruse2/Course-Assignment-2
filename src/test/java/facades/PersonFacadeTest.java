@@ -39,7 +39,7 @@ public class PersonFacadeTest {
         A better way to handle configuration values, compared to the UNUSED example above, is to store those values
         ONE COMMON place accessible from anywhere.
         The file config.properties and the corresponding helper class utils.Settings is added just to do that. 
-        See below for how to use these files. This is our RECOMENDED strategy
+        See below for how to use these files. This is our RECOMENDED strategy 
      */
     @BeforeAll
     public static void setUpClassV2() {
