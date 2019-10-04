@@ -65,8 +65,8 @@ public class PersonResourceTest {
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
-        r1 = new Person("Some txt","More text");
-        r2 = new Person("aaa","bbb");
+//        r1 = new Person("Some txt","More text");
+//        r2 = new Person("aaa","bbb");
         try {
             em.getTransaction().begin();
             em.createNamedQuery("RenameMe.deleteAllRows").executeUpdate();
@@ -89,7 +89,7 @@ public class PersonResourceTest {
     public void testDummyMsg() throws Exception {
         given()
         .contentType("application/json")
-        .get("/xxx/").then()
+        .get("/person/").then()
         .assertThat()
         .statusCode(HttpStatus.OK_200.getStatusCode())
         .body("msg", equalTo("Hello World"));   
@@ -99,7 +99,7 @@ public class PersonResourceTest {
     public void testCount() throws Exception {
         given()
         .contentType("application/json")
-        .get("/xxx/count").then()
+        .get("/person/count").then()
         .assertThat()
         .statusCode(HttpStatus.OK_200.getStatusCode())
         .body("count", equalTo(2));   
