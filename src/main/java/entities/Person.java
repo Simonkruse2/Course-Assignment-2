@@ -12,7 +12,7 @@ import javax.persistence.NamedQuery;
 
 
 @Entity
-@NamedQuery(name = "RenameMe.deleteAllRows", query = "DELETE from RenameMe")
+@NamedQuery(name = "Person.deleteAllRows", query = "DELETE from Person")
 public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;

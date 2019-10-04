@@ -22,7 +22,6 @@ import org.junit.jupiter.api.Test;
 import utils.EMF_Creator.DbSelector;
 import utils.EMF_Creator.Strategy;
 
-//Uncomment the line below, to temporarily disable this test
 @Disabled
 public class PersonResourceTest {
 
@@ -60,8 +59,6 @@ public class PersonResourceTest {
          httpServer.shutdownNow();
     }
     
-    // Setup the DataBase (used by the test-server and this test) in a known state BEFORE EACH TEST
-    //TODO -- Make sure to change the EntityClass used below to use YOUR OWN (renamed) Entity class
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
@@ -69,7 +66,7 @@ public class PersonResourceTest {
 //        r2 = new Person("aaa","bbb");
         try {
             em.getTransaction().begin();
-            em.createNamedQuery("RenameMe.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Person.deleteAllRows").executeUpdate();
             em.persist(r1);
             em.persist(r2); 
             em.getTransaction().commit();
@@ -81,10 +78,9 @@ public class PersonResourceTest {
     @Test
     public void testServerIsUp() {
         System.out.println("Testing is server UP");
-        given().when().get("/xxx").then().statusCode(200);
+        given().when().get("/person").then().statusCode(200);
     }
    
-    //This test assumes the database contains two rows
     @Test
     public void testDummyMsg() throws Exception {
         given()
@@ -93,15 +89,5 @@ public class PersonResourceTest {
         .assertThat()
         .statusCode(HttpStatus.OK_200.getStatusCode())
         .body("msg", equalTo("Hello World"));   
-    }
-    
-    @Test
-    public void testCount() throws Exception {
-        given()
-        .contentType("application/json")
-        .get("/person/count").then()
-        .assertThat()
-        .statusCode(HttpStatus.OK_200.getStatusCode())
-        .body("count", equalTo(2));   
     }
 }
