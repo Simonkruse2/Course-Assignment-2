@@ -24,23 +24,6 @@ public class PersonFacadeTest {
     public PersonFacadeTest() {
     }
 
-    //@BeforeAll
-    public static void setUpClass() {
-        emf = EMF_Creator.createEntityManagerFactory(
-                "pu",
-                "jdbc:mysql://localhost:3307/ca2_test",
-                "dev",
-                "ax2",
-                EMF_Creator.Strategy.CREATE);
-        facade = PersonFacade.getFacadeExample(emf);
-    }
-
-    /*   **** HINT **** 
-        A better way to handle configuration values, compared to the UNUSED example above, is to store those values
-        ONE COMMON place accessible from anywhere.
-        The file config.properties and the corresponding helper class utils.Settings is added just to do that. 
-        See below for how to use these files. This is our RECOMENDED strategy 
-     */
     @BeforeAll
     public static void setUpClassV2() {
        emf = EMF_Creator.createEntityManagerFactory(DbSelector.TEST,Strategy.DROP_AND_CREATE);
@@ -53,13 +36,12 @@ public class PersonFacadeTest {
     }
 
     // Setup the DataBase in a known state BEFORE EACH TEST
-    //TODO -- Make sure to change the script below to use YOUR OWN entity class
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            em.createNamedQuery("RenameMe.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Person.deleteAllRows").executeUpdate();
             em.persist(new Person("Some txt", "More text",""));
             em.persist(new Person("aaa", "bbb",""));
 
