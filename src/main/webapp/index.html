@@ -2,13 +2,26 @@
 <html>
     <head>
         <title>Start Page</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+        <!--importing CSS-->
+        <link rel="stylesheet" href="css/indexCSS.css">
+
+        <!-- importing javascripts -->
+        <script src="js/tables.js" defer></script>
+        <script src="js/fetchPerson.js" defer></script>
     </head>
     <body style="font-family: sans-serif;padding:8px;font-size: large">
+        <!--<button id="personByPhone" type="button" class="btn btn-primary">Person By Phonenumber</button>-->
         <div>
             <a href="openapi">API-Documentation</a>
         </div>
-        
+        <div id="content"></div>
         <a href="scrumplan.html">Link to Scrum planning</a>
     </body>
 </html>
