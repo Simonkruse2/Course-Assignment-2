@@ -1,7 +1,12 @@
 package rest;
 
 import dto.PersonOutDTO;
+import entities.Address;
+import entities.CityInfo;
+import entities.Hobby;
 import entities.Person;
+import entities.Phone;
+import facades.PersonFacade;
 import utils.EMF_Creator;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
@@ -27,12 +32,17 @@ import org.junit.jupiter.api.Test;
 import utils.EMF_Creator.DbSelector;
 import utils.EMF_Creator.Strategy;
 
-@Disabled
+//@Disabled
 public class PersonResourceIT {
 
     private static final int SERVER_PORT = 7777;
     private static final String SERVER_URL = "http://localhost/api";
-    private static Person r1,r2;
+    private static PersonFacade facade;
+    private Person p1, p2;
+    private Hobby h1, h2, h3;
+    private Address a1, a2;
+    private CityInfo c1, c2;
+    private Phone phone1, phone2, phone3;
     
     static final URI BASE_URI = UriBuilder.fromUri(SERVER_URL).port(SERVER_PORT).build();
     private static HttpServer httpServer;
@@ -67,15 +77,27 @@ public class PersonResourceIT {
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
-//        r1 = new Person("Some txt","More text");
-//        r2 = new Person("aaa","bbb");
         try {
             em.getTransaction().begin();
             em.createNamedQuery("Person.deleteAllRows").executeUpdate();
-            em.persist(r1);
-            em.persist(r2); 
+            em.createNamedQuery("Address.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Hobby.deleteAllRows").executeUpdate();
+            em.createNamedQuery("CityInfo.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Phone.deleteAllRows").executeUpdate();
+            h1 = new Hobby("Cykling", "Cykling på hold");
+            h2 = new Hobby("Film", "Gyserfilm");
+            h3 = new Hobby("Film", "Dramafilm");
+            c1 = new CityInfo(2100, "KBH Ø");
+            c2 = new CityInfo(2300, "KBH S");
+            a1 = new Address("Testgade", "dejligt sted", c1);
+            a2 = new Address("Testvej", "fint sted", c2);
+            p1 = new Person("email", "Gurli", "Mogensen", a1);
+            p2 = new Person("mail", "Gunnar", "Hjorth", a2);
+            phone1 = new Phone("1234", "hjemmetelefon", p1);
+            phone2 = new Phone("5678", "mobil", p1);
+            phone3 = new Phone("4321", "arbejdstelefon", p2);
             em.getTransaction().commit();
-        } finally { 
+        } finally {
             em.close();
         }
     }
@@ -101,38 +123,26 @@ public class PersonResourceIT {
     }
 
     /**
-     * Test of demo method, of class PersonResource.
-     */
-    @org.junit.Test
-    public void testDemo() {
-        System.out.println("demo");
-        PersonResource instance = new PersonResource();
-        String expResult = "";
-        String result = instance.demo();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of getPersonInfo method, of class PersonResource.
      */
-//    @org.junit.Test
+    @Test
     public void testGetPersonInfo() {
         System.out.println("getPersonInfo");
-        int personID = 0;
-        PersonResource instance = new PersonResource();
-        PersonOutDTO expResult = null;
-        PersonOutDTO result = instance.getPersonInfo(personID);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        given()
+        .contentType("application/json")
+        .get("/person/1").then()
+        .assertThat()
+        .statusCode(HttpStatus.OK_200.getStatusCode())
+        .body("email", equalTo("info@simonskodebiks.dk"))
+        .body("firstName", equalTo("Gũnther"))
+        .body("lastName", equalTo("Steiner"))
+        ;  
     }
 
     /**
      * Test of getAllPersonsInfoByHobby method, of class PersonResource.
      */
-//    @org.junit.Test
+//    @Test
     public void testGetAllPersonsInfoByHobby() {
         System.out.println("getAllPersonsInfoByHobby");
         PersonResource instance = new PersonResource();
@@ -146,7 +156,7 @@ public class PersonResourceIT {
     /**
      * Test of getAllPersonsInfoByCity method, of class PersonResource.
      */
-//    @org.junit.Test
+//    @Test
     public void testGetAllPersonsInfoByCity() {
         System.out.println("getAllPersonsInfoByCity");
         PersonResource instance = new PersonResource();
@@ -160,7 +170,7 @@ public class PersonResourceIT {
     /**
      * Test of getCountPersonByHobby method, of class PersonResource.
      */
-//    @org.junit.Test
+//    @Test
     public void testGetCountPersonByHobby() {
         System.out.println("getCountPersonByHobby");
         PersonResource instance = new PersonResource();
@@ -172,7 +182,7 @@ public class PersonResourceIT {
     /**
      * Test of getAllZipCodes method, of class PersonResource.
      */
-//    @org.junit.Test
+//    @Test
     public void testGetAllZipCodes() {
         System.out.println("getAllZipCodes");
         PersonResource instance = new PersonResource();

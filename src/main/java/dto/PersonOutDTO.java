@@ -1,10 +1,8 @@
 package dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.util.HashSet;
-import java.util.Set;
 
-@Schema(name = "PersonInfo")  //Because of this we could have called the class MovieInfoDTO
+@Schema(name = "PersonInfo")
 public class PersonOutDTO {
 
     private int personID;

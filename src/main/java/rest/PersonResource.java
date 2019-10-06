@@ -62,7 +62,6 @@ public class PersonResource {
         return "{\"msg\":\"Hello World\"}";
     }
 
-//    Get information about a person (address, hobbies etc) given a phone number
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -75,6 +74,22 @@ public class PersonResource {
                 @ApiResponse(responseCode = "404", description = "Person not found")})
 
     public PersonOutDTO getPersonInfo(@PathParam("id") int personID) {
+        return new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner");
+    }
+
+//    Get information about a person (address, hobbies etc) given a phone number
+    @GET
+    @Path("{phoneNumber}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Get Person info by PhoneNumber",
+            tags = {"person"},
+            responses = {
+                @ApiResponse(
+                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonOutDTO.class))),
+                @ApiResponse(responseCode = "200", description = "The Requested Person"),
+                @ApiResponse(responseCode = "404", description = "Person not found")})
+
+    public PersonOutDTO getPersonInfoByPhoneNumber(@PathParam("phoneNumber") String phoneNumber) {
         return new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner");
     }
 

@@ -6,8 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -16,13 +17,13 @@ public class PersonFacade {
 
     private static PersonFacade instance;
     private static EntityManagerFactory emf;
-    
+
     //Private Constructor to ensure Singleton
-    private PersonFacade() {}
-    
-    
+    private PersonFacade() {
+    }
+
     /**
-     * 
+     *
      * @param _emf
      * @return an instance of this facade class.
      */
@@ -37,19 +38,35 @@ public class PersonFacade {
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-    
+
+    public Person getPerson(int personID){
+        EntityManager em = emf.createEntityManager();
+      try {
+            Person p = em.find(Person.class, personID);
+            return p;
+        } finally {
+            em.close();
+        }
+    }
     
     // Get information about a person (address, hobbies etc) given a phone number
-    public void getPerson(){
-        
+    public List<Person> getPersonByPhoneNu2mber(String phoneNumber) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<Person> query = (TypedQuery<Person>) em.createQuery("SELECT c FROM Person c WHERE c.phones.phoneNumber = :phoneNumber");
+            query.setParameter("phoneNumber", phoneNumber);
+            List<Person> results = query.getResultList();
+            return results;
+        } finally {
+            em.close();
+        }
     }
-    
-    
+
     // Get all persons with a given hobby
-    public void getAllPersonsWithHobby(Hobby hobby){
-        
+    public void getAllPersonsWithHobby(Hobby hobby) {
+
     }
-    
+
     // Get all persons living in a given city (i.e. 2800 Lyngby)
     public List<Person> getAllPersonsWithZipCode(int zipcode){
         EntityManager em = emf.createEntityManager();
@@ -61,21 +78,21 @@ public class PersonFacade {
             em.close();
         }
     }
-    
+
     // Get the count of people with a given hobby
-    public int getCountPeopleWithHobby(){
+    public int getCountPeopleWithHobby() {
         EntityManager em = emf.createEntityManager();
-        try{
-            int renameMeCount = (int)em.createQuery("SELECT COUNT(r) FROM Person r where").getSingleResult();
+        try {
+            int renameMeCount = (int) em.createQuery("SELECT COUNT(r) FROM Person r where").getSingleResult();
             return renameMeCount;
-        }finally{  
+        } finally {
             em.close();
         }
     }
-    
+
     // Get a list of all zip codes in Denmark
-    public void getAllZipCodes(){
-        
+    public void getAllZipCodes() {
+
     }
 
 }

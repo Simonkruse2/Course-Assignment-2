@@ -5,6 +5,7 @@ import entities.CityInfo;
 import entities.Hobby;
 import entities.Person;
 import entities.Phone;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -83,21 +84,31 @@ public class PersonFacadeTest {
     }
 
     /**
-     * Test of getCompanyInfo method, of class PersonFacade.
+     * Test of getPerson method, of class PersonFacade.
      */
     @Test
-    public void testGetCompanyInfo() {
-        System.out.println("getCompanyInfo");
-        PersonFacade instance = null;
-//        instance.getCompanyInfo();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testGetPerson() {
+        System.out.println("getPerson");
+        Person instance = facade.getPerson(p1.getPersonID());
+        assertEquals(instance, p1);
     }
+
+    /**
+     * Test of getPerson method, of class PersonFacade.
+     */
+    @Test
+    public void testGetPersonByPhoneNumber() {
+        System.out.println("getPersonByPhoneNumber");
+        
+        List<Person> instance = facade.getPersonByPhoneNumber("1234");
+        assertEquals(instance.get(0), p1);
+    }
+
 
     /**
      * Test of getAllPersonsWithHobby method, of class PersonFacade.
      */
-    @Test
+//    @Test
     public void testGetAllPersonsWithHobby() {
         System.out.println("getAllPersons");
         PersonFacade instance = null;
@@ -108,7 +119,7 @@ public class PersonFacadeTest {
     /**
      * Test of getAllPersonsWithZipCode method, of class PersonFacade.
      */
-    @Test
+//    @Test
     public void testGetAllPersonsWithZipCode() {
         System.out.println("getZipCodes");
         List<Person> persons = facade.getAllPersonsWithZipCode(2300);
@@ -118,7 +129,7 @@ public class PersonFacadeTest {
     /**
      * Test of getCountPeopleWithHobby method, of class PersonFacade.
      */
-    @Test
+//    @Test
     public void testGetCountPeopleWithHobby() {
         System.out.println("getCountPeopleWithHobby");
         PersonFacade instance = null;
@@ -132,7 +143,7 @@ public class PersonFacadeTest {
     /**
      * Test of getAllZipCodes method, of class PersonFacade.
      */
-    @Test
+//    @Test
     public void testGetAllZipCodes() {
         System.out.println("getAllZipCodes");
         PersonFacade instance = null;
@@ -141,4 +152,17 @@ public class PersonFacadeTest {
         fail("The test case is a prototype.");
     }
 
+    /**
+     * Test of getFacadeExample method, of class PersonFacade.
+     */
+//    @Test
+    public void testGetFacadeExample() {
+        System.out.println("getFacadeExample");
+        EntityManagerFactory _emf = null;
+        PersonFacade expResult = null;
+        PersonFacade result = PersonFacade.getFacadeExample(_emf);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
 }
