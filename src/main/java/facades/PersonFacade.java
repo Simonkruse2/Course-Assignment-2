@@ -38,8 +38,8 @@ public class PersonFacade {
     }
     
     
-    // Get information about a company, given a phone number or cvr (red).
-    public void getCompanyInfo(){
+    // Get information about a person (address, hobbies etc) given a phone number
+    public void getPerson(){
         
     }
     
