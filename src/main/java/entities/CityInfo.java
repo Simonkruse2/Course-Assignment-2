@@ -59,7 +59,7 @@ public class CityInfo implements Serializable {
         return addresses;
     }
 
-    public void addAddresses(Address a) {
+    public void addAddress(Address a) {
         this.addresses.add(a);
     }
 

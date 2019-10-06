@@ -37,7 +37,17 @@ public class Address implements Serializable {
         this.street = street;
         this.addiontionalInfo = addiontionalInfo;
         this.cityInfo = cityInfo;
-        cityInfo.addAddresses(this);
+        cityInfo.addAddress(this);
+    }
+
+    public CityInfo getCityInfo() {
+        return cityInfo;
+    }
+
+    public void setCityInfo(CityInfo cityInfo) {
+        this.cityInfo = cityInfo;
+        if(!cityInfo.getAddresses().contains(this))
+            cityInfo.addAddress(this);
     }
 
     public String getStreet() {

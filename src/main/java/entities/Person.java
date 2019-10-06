@@ -3,12 +3,14 @@ package entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 
 @Entity
@@ -22,10 +24,25 @@ public class Person implements Serializable {
     private String email;
     private String firstName;
     private String lastName;
-    
+    @OneToMany(
+            mappedBy = "phone"
+            ,cascade = CascadeType.PERSIST
+//            ,orphanRemoval = true
+    )
+    private ArrayList<Phone> phones;
+
+    public ArrayList<Phone> getPhones() {
+        return phones;
+    }
+
+    public void addPhone(Phone phone) {
+        phones.add(phone);
+    }
+
+
 //    @ManyToMany
 //    private ArrayList<Hobby> hobbies = new ArrayList();
-    
+
     public Person() {
     }
 
