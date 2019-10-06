@@ -78,6 +78,7 @@ public class PersonResource {
             // for test
             return new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner");
         } else {
+            // here should be something real :-)
             return new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner");
         }
     }
@@ -99,6 +100,7 @@ public class PersonResource {
             // for test
             return new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner");
         } else {
+            // here should be something real :-)
             return new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner");
         }
     }
