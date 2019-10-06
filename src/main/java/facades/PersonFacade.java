@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -50,9 +51,15 @@ public class PersonFacade {
     }
     
     // Get all persons living in a given city (i.e. 2800 Lyngby)
-    public ArrayList<Person> getAllPersonsWithZipCode(int zipcode){
-        ArrayList<Person> persons = new ArrayList<>();
-        return persons;
+    public List<Person> getAllPersonsWithZipCode(int zipcode){
+        EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<Person> query
+                    = em.createQuery("SELECT p from Person p JOIN p.address a JOIN a.cityInfo c WHERE c.zipCode = :zipCode", Person.class).setParameter("zipCode", zipcode);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
     }
     
     // Get the count of people with a given hobby
