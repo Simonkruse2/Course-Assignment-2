@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entities;
 
 import java.io.Serializable;
@@ -41,8 +36,8 @@ public class Address implements Serializable {
     private CityInfo cityInfo;
     
     @OneToMany(
-            mappedBy = "address"
-            ,cascade = CascadeType.PERSIST
+            mappedBy = "address",
+            cascade = CascadeType.PERSIST
     )
     private List<Person> persons = new ArrayList();
 
