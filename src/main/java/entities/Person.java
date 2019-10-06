@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
@@ -30,6 +33,10 @@ public class Person implements Serializable {
 //            ,orphanRemoval = true
     )
     private ArrayList<Phone> phones;
+    
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     public ArrayList<Phone> getPhones() {
         return phones;
@@ -46,11 +53,15 @@ public class Person implements Serializable {
     public Person() {
     }
 
-    public Person(String email, String firstName, String lastName) {
+    public Person(String email, String firstName, String lastName, Address address) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.address = address;
+        address.addPerson(this);
     }
+
+    
         
     public int getID() {
         return ID;

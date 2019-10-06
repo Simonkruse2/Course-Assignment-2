@@ -1,6 +1,10 @@
 package facades;
 
+import entities.Address;
+import entities.CityInfo;
+import entities.Hobby;
 import entities.Person;
+import entities.Phone;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.AfterEach;
@@ -19,6 +23,11 @@ public class PersonFacadeIT {
 
     private static EntityManagerFactory emf;
     private static PersonFacade facade;
+    private Person p1, p2;
+    private Hobby h1, h2, h3;
+    private Address a1, a2;
+    private CityInfo c1, c2;
+    private Phone phone1, phone2, phone3;
     
     public PersonFacadeIT() {
     }
@@ -39,9 +48,16 @@ public class PersonFacadeIT {
         try {
             em.getTransaction().begin();
             em.createNamedQuery("Person.deleteAllRows").executeUpdate();
-            em.persist(new Person("Some txt", "More text","ccc"));
-            em.persist(new Person("aaa", "bbb","ccc"));
-
+            
+            h1 = new Hobby("Cykling", "Cykling på hold");
+            h2 = new Hobby("Film", "Gyserfilm");
+            h3 = new Hobby("Film", "Dramafilm");
+            c1 = new CityInfo(2100, "KBH Ø");
+            c2 = new CityInfo(2300, "KBH S");
+            a1 = new Address("Testgade", "dejligt sted", c1);
+            a2 = new Address("Testvej", "fint sted", c2);
+            p1 = new Person("email", "Gurli", "Mogensen", a1);
+            p2 = new Person("mail", "Gunnar", "Hjorth", a2);
             em.getTransaction().commit();
         } finally {
             em.close();
@@ -65,25 +81,24 @@ public class PersonFacadeIT {
     }
 
     /**
-     * Test of getAllPersons method, of class PersonFacade.
+     * Test of getAllPersonsWithHobby method, of class PersonFacade.
      */
-//    @org.junit.Test
-    public void testGetAllPersons() {
+    @org.junit.Test
+    public void testGetAllPersonsWithHobby() {
         System.out.println("getAllPersons");
         PersonFacade instance = null;
-        instance.getAllPersons();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of getZipCodes method, of class PersonFacade.
+     * Test of getAllPersonsWithZipCode method, of class PersonFacade.
      */
 //    @org.junit.Test
-    public void testGetZipCodes() {
+    public void testGetAllPersonsWithZipCode() {
         System.out.println("getZipCodes");
         PersonFacade instance = null;
-        instance.getZipCodes();
+        instance.getAllPersonsWithZipCode();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

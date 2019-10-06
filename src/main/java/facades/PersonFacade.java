@@ -1,5 +1,6 @@
 package facades;
 
+import entities.Hobby;
 import entities.Person;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -43,12 +44,12 @@ public class PersonFacade {
     
     
     // Get all persons with a given hobby
-    public void getAllPersons(){
+    public void getAllPersonsWithHobby(Hobby hobby){
         
     }
     
     // Get all persons living in a given city (i.e. 2800 Lyngby)
-    public void getZipCodes(){
+    public void getAllPersonsWithZipCode(){
         
     }
     
