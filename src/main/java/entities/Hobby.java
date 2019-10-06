@@ -31,7 +31,7 @@ public class Hobby implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ID;
+    private int hobbyID;
     private String name;
     private String description;
 
@@ -46,12 +46,12 @@ public class Hobby implements Serializable {
         this.description = description;
     }
 
-    public int getID() {
-        return ID;
+    public int getHobbyID() {
+        return hobbyID;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setHobbyID(int hobbyID) {
+        this.hobbyID = hobbyID;
     }
 
     public String getName() {
@@ -71,11 +71,17 @@ public class Hobby implements Serializable {
     }
 
     @Override
+    public String toString() {
+        return "Hobby{" + "hobbyID=" + hobbyID + ", name=" + name + ", description=" + description + ", persons=" + persons + '}';
+    }
+
+    @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + this.ID;
-        hash = 97 * hash + Objects.hashCode(this.name);
-        hash = 97 * hash + Objects.hashCode(this.description);
+        int hash = 5;
+        hash = 71 * hash + this.hobbyID;
+        hash = 71 * hash + Objects.hashCode(this.name);
+        hash = 71 * hash + Objects.hashCode(this.description);
+        hash = 71 * hash + Objects.hashCode(this.persons);
         return hash;
     }
 
@@ -91,7 +97,7 @@ public class Hobby implements Serializable {
             return false;
         }
         final Hobby other = (Hobby) obj;
-        if (this.ID != other.ID) {
+        if (this.hobbyID != other.hobbyID) {
             return false;
         }
         if (!Objects.equals(this.name, other.name)) {
@@ -100,12 +106,11 @@ public class Hobby implements Serializable {
         if (!Objects.equals(this.description, other.description)) {
             return false;
         }
+        if (!Objects.equals(this.persons, other.persons)) {
+            return false;
+        }
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "Hobby{" + "ID=" + ID + ", name=" + name + ", description=" + description + '}';
-    }
 
 }

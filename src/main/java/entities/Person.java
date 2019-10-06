@@ -39,24 +39,6 @@ public class Person implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "address_id")
     private Address address;
-    
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-        if(!address.getPersons().contains(this))
-            address.addPerson(this);
-    }
-
-    public ArrayList<Phone> getPhones() {
-        return phones;
-    }
-
-    public void addPhone(Phone phone) {
-        phones.add(phone);
-    }
 
     @ManyToMany(cascade = {
         CascadeType.PERSIST,
@@ -85,8 +67,25 @@ public class Person implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
     }
-
     
+    
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+        if(!address.getPersons().contains(this))
+            address.addPerson(this);
+    }
+
+    public ArrayList<Phone> getPhones() {
+        return phones;
+    }
+
+    public void addPhone(Phone phone) {
+        phones.add(phone);
+    }
         
     public int getID() {
         return ID;
