@@ -3,6 +3,7 @@ package entities;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -22,23 +23,26 @@ public class Phone implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer phoneID;
-    private int number;
+      
+    @Column(name = "phoneNumber")
+    private String phoneNumber;
     private String description;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "personID")
     private Person person;
 
     public Phone() {
     }
 
-    public int getNumber() {
-        return number;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setNumber(String number) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getDescription() {
@@ -60,8 +64,8 @@ public class Phone implements Serializable {
         }
     }
 
-    public Phone(int number, String description, Person person) {
-        this.number = number;
+    public Phone(String number, String description, Person person) {
+        this.phoneNumber = phoneNumber;
         this.description = description;
         this.person = person;
         person.addPhone(this);
@@ -77,7 +81,7 @@ public class Phone implements Serializable {
 
     @Override
     public String toString() {
-        return "Phone{" + "phoneID=" + phoneID + ", number=" + number + ", description=" + description + ", person=" + person + '}';
+        return "Phone{" + "phoneID=" + phoneID + ", phoneNumber=" + phoneNumber + ", description=" + description + ", person=" + person + '}';
     }
     
     
@@ -85,7 +89,7 @@ public class Phone implements Serializable {
     public int hashCode() {
         int hash = 5;
         hash = 37 * hash + Objects.hashCode(this.phoneID);
-        hash = 37 * hash + this.number;
+        hash = 37 * hash + Objects.hashCode(this.phoneNumber);
         hash = 37 * hash + Objects.hashCode(this.description);
         hash = 37 * hash + Objects.hashCode(this.person);
         return hash;
@@ -103,7 +107,7 @@ public class Phone implements Serializable {
             return false;
         }
         final Phone other = (Phone) obj;
-        if (this.number != other.number) {
+        if (this.phoneNumber != other.phoneNumber) {
             return false;
         }
         if (!Objects.equals(this.description, other.description)) {

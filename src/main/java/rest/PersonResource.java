@@ -74,7 +74,7 @@ public class PersonResource {
                 @ApiResponse(responseCode = "200", description = "The Requested Person"),
                 @ApiResponse(responseCode = "404", description = "Person not found")})
 
-    public PersonOutDTO getPersonInfo(@PathParam("id") int id) {
+    public PersonOutDTO getPersonInfo(@PathParam("id") int personID) {
         return new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner");
     }
 

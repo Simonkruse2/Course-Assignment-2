@@ -7,7 +7,7 @@ import java.util.Set;
 @Schema(name = "PersonInfo")  //Because of this we could have called the class MovieInfoDTO
 public class PersonOutDTO {
 
-    private int ID;
+    private int personID;
     
     @Schema(required = true, example = "info@simonskodebiks.dk")
     private String email;
@@ -27,12 +27,12 @@ public class PersonOutDTO {
     public PersonOutDTO() {
     }
 
-    public int getID() {
-        return ID;
+    public int getPersonID() {
+        return personID;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setPersonID(int personID) {
+        this.personID = personID;
     }
 
     public String getEmail() {

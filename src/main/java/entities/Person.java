@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -26,17 +27,19 @@ public class Person implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int personID;
+    
+    @Column(name = "email")
     private String email;
     private String firstName;
     private String lastName;
-    @OneToMany(
-            mappedBy = "phoneID"
-            ,cascade = CascadeType.PERSIST
-//            ,orphanRemoval = true
-    )
-    private ArrayList<Phone> phones;
     
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @OneToMany(
+            mappedBy = "person",
+            cascade = CascadeType.PERSIST
+    )
+    private List<Phone> phones = new ArrayList();
+    
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "addressID")
     private Address address;
 
@@ -49,7 +52,6 @@ public class Person implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "hobbyID")
     )
     private List<Hobby> hobbies = new ArrayList<>();
-
 
     public Person() {
     }
@@ -68,7 +70,6 @@ public class Person implements Serializable {
         this.lastName = lastName;
     }
     
-    
     public Address getAddress() {
         return address;
     }
@@ -79,7 +80,15 @@ public class Person implements Serializable {
             address.addPerson(this);
     }
 
-    public ArrayList<Phone> getPhones() {
+    public void setPhones(ArrayList<Phone> phones) {
+        this.phones = phones;
+    }
+
+    public void setHobbies(List<Hobby> hobbies) {
+        this.hobbies = hobbies;
+    }
+
+    public List<Phone> getPhones() {
         return phones;
     }
 

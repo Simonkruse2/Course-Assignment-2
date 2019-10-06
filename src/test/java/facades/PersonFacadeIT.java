@@ -63,9 +63,9 @@ public class PersonFacadeIT {
             a2 = new Address("Testvej", "fint sted", c2);
             p1 = new Person("email", "Gurli", "Mogensen", a1);
             p2 = new Person("mail", "Gunnar", "Hjorth", a2);
-            phone1 = new Phone(1234, "hjemmetelefon", p1);
-            phone2 = new Phone(5678, "mobil", p1);
-            phone3 = new Phone(4321, "arbejdstelefon", p2);
+            phone1 = new Phone("1234", "hjemmetelefon", p1);
+            phone2 = new Phone("5678", "mobil", p1);
+            phone3 = new Phone("4321", "arbejdstelefon", p2);
             em.getTransaction().commit();
         } finally {
             em.close();

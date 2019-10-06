@@ -7,6 +7,7 @@ package entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -29,25 +30,26 @@ public class Address implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer addressID;
+    
     private String street;
-    private String addiontionalInfo;
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    private String additionalInfo;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cityInfoID")
     private CityInfo cityInfo;
     
     @OneToMany(
             mappedBy = "address"
             ,cascade = CascadeType.PERSIST
-//            ,orphanRemoval = true
     )
-    private ArrayList<Person> persons;
+    private List<Person> persons = new ArrayList();
 
     public Address() {
     }
 
-    public ArrayList<Person> getPersons() {
+    public List<Person> getPersons() {
         return persons;
     }
 
@@ -55,9 +57,9 @@ public class Address implements Serializable {
         this.persons.add(person);
     }
     
-    public Address(String street, String addiontionalInfo, CityInfo cityInfo) {
+    public Address(String street, String additionalInfo, CityInfo cityInfo) {
         this.street = street;
-        this.addiontionalInfo = addiontionalInfo;
+        this.additionalInfo = additionalInfo;
         this.cityInfo = cityInfo;
         cityInfo.addAddress(this);
     }
@@ -80,12 +82,12 @@ public class Address implements Serializable {
         this.street = street;
     }
 
-    public String getAddiontionalInfo() {
-        return addiontionalInfo;
+    public String getAdditionalInfo() {
+        return additionalInfo;
     }
 
-    public void setAddiontionalInfo(String addiontionalInfo) {
-        this.addiontionalInfo = addiontionalInfo;
+    public void setAdditionalInfo(String additionalInfo) {
+        this.additionalInfo = additionalInfo;
     }    
 
     public Integer getAddressID() {
@@ -98,7 +100,7 @@ public class Address implements Serializable {
 
     @Override
     public String toString() {
-        return "Address{" + "addressID=" + addressID + ", street=" + street + ", addiontionalInfo=" + addiontionalInfo + ", cityInfo=" + cityInfo + ", persons=" + persons + '}';
+        return "Address{" + "addressID=" + addressID + ", street=" + street + ", additionalInfo=" + additionalInfo + ", cityInfo=" + cityInfo + ", persons=" + persons + '}';
     }
 
     
@@ -107,7 +109,7 @@ public class Address implements Serializable {
         int hash = 5;
         hash = 97 * hash + Objects.hashCode(this.addressID);
         hash = 97 * hash + Objects.hashCode(this.street);
-        hash = 97 * hash + Objects.hashCode(this.addiontionalInfo);
+        hash = 97 * hash + Objects.hashCode(this.additionalInfo);
         hash = 97 * hash + Objects.hashCode(this.cityInfo);
         hash = 97 * hash + Objects.hashCode(this.persons);
         return hash;
@@ -128,7 +130,7 @@ public class Address implements Serializable {
         if (!Objects.equals(this.street, other.street)) {
             return false;
         }
-        if (!Objects.equals(this.addiontionalInfo, other.addiontionalInfo)) {
+        if (!Objects.equals(this.additionalInfo, other.additionalInfo)) {
             return false;
         }
         if (!Objects.equals(this.addressID, other.addressID)) {
