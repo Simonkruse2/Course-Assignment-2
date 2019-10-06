@@ -41,7 +41,7 @@ public class Phone implements Serializable {
         return phoneNumber;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -64,7 +64,7 @@ public class Phone implements Serializable {
         }
     }
 
-    public Phone(String number, String description, Person person) {
+    public Phone(String phoneNumber, String description, Person person) {
         this.phoneNumber = phoneNumber;
         this.description = description;
         this.person = person;

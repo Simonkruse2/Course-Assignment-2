@@ -53,7 +53,7 @@ public class PersonFacade {
     public List<Person> getPersonByPhoneNumber(String phoneNumber) {
         EntityManager em = emf.createEntityManager();
         try {
-            TypedQuery<Person> query = (TypedQuery<Person>) em.createQuery("SELECT c FROM Person c WHERE c.phones.phoneNumber = :phoneNumber");
+            TypedQuery<Person> query = (TypedQuery<Person>) em.createQuery("SELECT c FROM Person c JOIN c.phones p WHERE p.phoneNumber = :phoneNumber");
             query.setParameter("phoneNumber", phoneNumber);
             List<Person> results = query.getResultList();
             return results;

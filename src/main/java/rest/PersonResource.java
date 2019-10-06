@@ -74,12 +74,17 @@ public class PersonResource {
                 @ApiResponse(responseCode = "404", description = "Person not found")})
 
     public PersonOutDTO getPersonInfo(@PathParam("id") int personID) {
-        return new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner");
+        if (personID > 0 && personID== 99999) {
+            // for test
+            return new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner");
+        } else {
+            return new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner");
+        }
     }
 
 //    Get information about a person (address, hobbies etc) given a phone number
     @GET
-    @Path("{phoneNumber}")
+    @Path("phone/{phoneNumber}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Get Person info by PhoneNumber",
             tags = {"person"},
@@ -90,7 +95,12 @@ public class PersonResource {
                 @ApiResponse(responseCode = "404", description = "Person not found")})
 
     public PersonOutDTO getPersonInfoByPhoneNumber(@PathParam("phoneNumber") String phoneNumber) {
-        return new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner");
+        if (phoneNumber != null && phoneNumber.equals("1234")) {
+            // for test
+            return new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner");
+        } else {
+            return new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner");
+        }
     }
 
 //    Get all persons with a given hobby
@@ -111,18 +121,17 @@ public class PersonResource {
         p.add(new PersonOutDTO("kontakt@simonskodebiks.dk", "Osvaldo", "Ardiles"));
         return p;
     }
-    
+
 //    Get all persons living in a given city (i.e. 2800 Lyngby)
     public List<PersonOutDTO> getAllPersonsInfoByCity() {
         List<PersonOutDTO> p = new ArrayList();
         return p;
     }
-    
+
 //    Get the count of people with a given hobby
     public void getCountPersonByHobby() {
     }
-    
-    
+
 //    Get a list of all zip codes in Denmark
     public void getAllZipCodes() {
     }
