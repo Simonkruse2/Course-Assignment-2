@@ -50,7 +50,7 @@ public class PersonFacade {
     }
     
     // Get information about a person (address, hobbies etc) given a phone number
-    public List<Person> getPersonByPhoneNu2mber(String phoneNumber) {
+    public List<Person> getPersonByPhoneNumber(String phoneNumber) {
         EntityManager em = emf.createEntityManager();
         try {
             TypedQuery<Person> query = (TypedQuery<Person>) em.createQuery("SELECT c FROM Person c WHERE c.phones.phoneNumber = :phoneNumber");
