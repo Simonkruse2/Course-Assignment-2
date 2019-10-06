@@ -83,7 +83,7 @@ public class PersonFacadeIT {
     public void testGetCompanyInfo() {
         System.out.println("getCompanyInfo");
         PersonFacade instance = null;
-        instance.getCompanyInfo();
+//        instance.getCompanyInfo();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
