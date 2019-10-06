@@ -90,7 +90,7 @@ public class PersonResource {
                 @ApiResponse(responseCode = "200", description = "The Requested Person"),
                 @ApiResponse(responseCode = "404", description = "Persons not found")})
 
-    public List<PersonOutDTO> getCompanyInfo() {
+    public List<PersonOutDTO> getAllPersonsInfoByHobby() {
         List<PersonOutDTO> p = new ArrayList();
         p.add(new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner"));
         p.add(new PersonOutDTO("kontakt@simonskodebiks.dk", "Osvaldo", "Ardiles"));
@@ -98,9 +98,18 @@ public class PersonResource {
     }
     
 //    Get all persons living in a given city (i.e. 2800 Lyngby)
-    
+    public List<PersonOutDTO> getAllPersonsInfoByCity() {
+        List<PersonOutDTO> p = new ArrayList();
+        return p;
+    }
     
 //    Get the count of people with a given hobby
+    public void getCountPersonByHobby() {
+    }
+    
+    
 //    Get a list of all zip codes in Denmark
+    public void getAllZipCodes() {
+    }
 
 }
