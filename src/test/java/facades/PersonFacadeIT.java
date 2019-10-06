@@ -5,8 +5,10 @@ import entities.CityInfo;
 import entities.Hobby;
 import entities.Person;
 import entities.Phone;
+import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,7 +50,10 @@ public class PersonFacadeIT {
         try {
             em.getTransaction().begin();
             em.createNamedQuery("Person.deleteAllRows").executeUpdate();
-            
+            em.createNamedQuery("Address.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Hobby.deleteAllRows").executeUpdate();
+            em.createNamedQuery("CityInfo.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Phone.deleteAllRows").executeUpdate();
             h1 = new Hobby("Cykling", "Cykling på hold");
             h2 = new Hobby("Film", "Gyserfilm");
             h3 = new Hobby("Film", "Dramafilm");
@@ -58,6 +63,9 @@ public class PersonFacadeIT {
             a2 = new Address("Testvej", "fint sted", c2);
             p1 = new Person("email", "Gurli", "Mogensen", a1);
             p2 = new Person("mail", "Gunnar", "Hjorth", a2);
+            phone1 = new Phone(1234, "hjemmetelefon", p1);
+            phone2 = new Phone(5678, "mobil", p1);
+            phone3 = new Phone(4321, "arbejdstelefon", p2);
             em.getTransaction().commit();
         } finally {
             em.close();
@@ -83,7 +91,7 @@ public class PersonFacadeIT {
     /**
      * Test of getAllPersonsWithHobby method, of class PersonFacade.
      */
-    @org.junit.Test
+//    @org.junit.Test
     public void testGetAllPersonsWithHobby() {
         System.out.println("getAllPersons");
         PersonFacade instance = null;
@@ -94,13 +102,11 @@ public class PersonFacadeIT {
     /**
      * Test of getAllPersonsWithZipCode method, of class PersonFacade.
      */
-//    @org.junit.Test
+    @org.junit.Test
     public void testGetAllPersonsWithZipCode() {
         System.out.println("getZipCodes");
-        PersonFacade instance = null;
-        instance.getAllPersonsWithZipCode();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        ArrayList<Person> persons = facade.getAllPersonsWithZipCode(2300);
+        assertEquals(persons.size(), 1);
     }
 
     /**

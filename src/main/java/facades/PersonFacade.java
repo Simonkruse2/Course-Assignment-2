@@ -2,6 +2,7 @@ package facades;
 
 import entities.Hobby;
 import entities.Person;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -49,8 +50,9 @@ public class PersonFacade {
     }
     
     // Get all persons living in a given city (i.e. 2800 Lyngby)
-    public void getAllPersonsWithZipCode(){
-        
+    public ArrayList<Person> getAllPersonsWithZipCode(int zipcode){
+        ArrayList<Person> persons = new ArrayList<>();
+        return persons;
     }
     
     // Get the count of people with a given hobby
