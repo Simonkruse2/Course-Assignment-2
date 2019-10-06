@@ -25,19 +25,19 @@ public class Person implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ID;
+    private int personID;
     private String email;
     private String firstName;
     private String lastName;
     @OneToMany(
-            mappedBy = "phone"
+            mappedBy = "phoneID"
             ,cascade = CascadeType.PERSIST
 //            ,orphanRemoval = true
     )
     private ArrayList<Phone> phones;
     
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "addressID")
     private Address address;
 
     @ManyToMany(cascade = {
@@ -45,8 +45,8 @@ public class Person implements Serializable {
         CascadeType.MERGE
     })
     @JoinTable(name = "person_hobbies",
-        joinColumns = @JoinColumn(name = "person_ID"),
-        inverseJoinColumns = @JoinColumn(name = "hobby_ID")
+        joinColumns = @JoinColumn(name = "personID"),
+        inverseJoinColumns = @JoinColumn(name = "hobbyID")
     )
     private List<Hobby> hobbies = new ArrayList<>();
 
@@ -87,12 +87,12 @@ public class Person implements Serializable {
         phones.add(phone);
     }
         
-    public int getID() {
-        return ID;
+    public int getPersonID() {
+        return personID;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setPersonID(int personID) {
+        this.personID = personID;
     }
 
     public String getEmail() {
@@ -121,13 +121,13 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-        return "Person{" + "ID=" + ID + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + '}';
+        return "Person{" + "personID=" + personID + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + '}';
     }
 
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 97 * hash + this.ID;
+        hash = 97 * hash + this.personID;
         hash = 97 * hash + Objects.hashCode(this.email);
         hash = 97 * hash + Objects.hashCode(this.firstName);
         hash = 97 * hash + Objects.hashCode(this.lastName);
@@ -146,7 +146,7 @@ public class Person implements Serializable {
             return false;
         }
         final Person other = (Person) obj;
-        if (this.ID != other.ID) {
+        if (this.personID != other.personID) {
             return false;
         }
         if (!Objects.equals(this.email, other.email)) {

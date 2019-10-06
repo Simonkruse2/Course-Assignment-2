@@ -44,8 +44,8 @@ public class PersonIT {
     @Test
     public void testGetID() {
         System.out.println("getID");
-        p1.setID(1);
-        int expResult = p1.getID();
+        p1.setPersonID(1);
+        int expResult = p1.getPersonID();
         int result = 1;
         assertEquals(expResult, result);
     }
