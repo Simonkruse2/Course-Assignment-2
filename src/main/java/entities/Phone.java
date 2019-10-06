@@ -30,6 +30,9 @@ public class Phone implements Serializable {
     @JoinColumn(name = "personID")
     private Person person;
 
+    public Phone() {
+    }
+
     public int getNumber() {
         return number;
     }

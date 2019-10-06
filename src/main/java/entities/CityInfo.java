@@ -37,6 +37,9 @@ public class CityInfo implements Serializable {
     )
     private ArrayList<Address> addresses;
 
+    public CityInfo() {
+    }
+
     public CityInfo(int zipCode, String city) {
         this.zipCode = zipCode;
         this.city = city;

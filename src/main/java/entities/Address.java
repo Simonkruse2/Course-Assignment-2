@@ -44,6 +44,9 @@ public class Address implements Serializable {
     )
     private ArrayList<Person> persons;
 
+    public Address() {
+    }
+
     public ArrayList<Person> getPersons() {
         return persons;
     }
