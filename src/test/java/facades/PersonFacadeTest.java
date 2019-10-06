@@ -21,7 +21,7 @@ import utils.EMF_Creator;
  *
  * @author martin
  */
-public class PersonFacadeIT {
+public class PersonFacadeTest {
 
     private static EntityManagerFactory emf;
     private static PersonFacade facade;
@@ -31,7 +31,7 @@ public class PersonFacadeIT {
     private CityInfo c1, c2;
     private Phone phone1, phone2, phone3;
 
-    public PersonFacadeIT() {
+    public PersonFacadeTest() {
     }
 
     @BeforeAll
