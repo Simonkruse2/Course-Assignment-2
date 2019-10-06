@@ -7,11 +7,16 @@ package entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 
@@ -30,9 +35,16 @@ public class Hobby implements Serializable {
     private String name;
     private String description;
     
-//    @ManyToMany
-//    private ArrayList<Person> persons = new ArrayList();
-
+    @ManyToMany(cascade = {
+        CascadeType.PERSIST,
+        CascadeType.MERGE
+    })
+    @JoinTable(name = "person_hobbies",
+        joinColumns = @JoinColumn(name = "person_ID"),
+        inverseJoinColumns = @JoinColumn(name = "hobby_ID")
+    )
+    private List<Person> persons = new ArrayList<>();
+    
     public Hobby() {
     }
 
