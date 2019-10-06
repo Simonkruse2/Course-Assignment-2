@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entities;
 
 import java.io.Serializable;
@@ -32,7 +27,7 @@ public class Phone implements Serializable {
     private int number;
     private String description;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "person_id")
+    @JoinColumn(name = "personID")
     private Person person;
 
     public int getNumber() {
