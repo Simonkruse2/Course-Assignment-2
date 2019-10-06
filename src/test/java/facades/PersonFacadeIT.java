@@ -30,20 +30,20 @@ public class PersonFacadeIT {
     private Address a1, a2;
     private CityInfo c1, c2;
     private Phone phone1, phone2, phone3;
-    
+
     public PersonFacadeIT() {
     }
-    
+
     @BeforeAll
     public static void setUpClass() {
        emf = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.TEST,EMF_Creator.Strategy.DROP_AND_CREATE);
        facade = PersonFacade.getFacadeExample(emf);
     }
-    
+
     @AfterAll
     public static void tearDownClass() {
     }
-    
+
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
@@ -71,7 +71,7 @@ public class PersonFacadeIT {
             em.close();
         }
     }
-    
+
     @AfterEach
     public void tearDown() {
     }
@@ -83,7 +83,7 @@ public class PersonFacadeIT {
     public void testGetCompanyInfo() {
         System.out.println("getCompanyInfo");
         PersonFacade instance = null;
-        //instance.getCompanyInfo();
+//        instance.getCompanyInfo();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -134,5 +134,5 @@ public class PersonFacadeIT {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
 }
