@@ -34,17 +34,10 @@ public class Hobby implements Serializable {
     private int ID;
     private String name;
     private String description;
-    
-    @ManyToMany(cascade = {
-        CascadeType.PERSIST,
-        CascadeType.MERGE
-    })
-    @JoinTable(name = "person_hobbies",
-        joinColumns = @JoinColumn(name = "person_ID"),
-        inverseJoinColumns = @JoinColumn(name = "hobby_ID")
-    )
+
+    @ManyToMany(mappedBy = "hobbies")
     private List<Person> persons = new ArrayList<>();
-    
+
     public Hobby() {
     }
 
@@ -114,5 +107,5 @@ public class Hobby implements Serializable {
     public String toString() {
         return "Hobby{" + "ID=" + ID + ", name=" + name + ", description=" + description + '}';
     }
-    
+
 }
