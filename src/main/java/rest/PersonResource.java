@@ -40,7 +40,7 @@ import javax.ws.rs.core.MediaType;
             ),
             @Server(
                     description = "Server API",
-                    url = "https://simonskodebiks.com/course-assignment-2/"
+                    url = "https://simonskodebiks.com/course-assignment-2"
             )
 
         }

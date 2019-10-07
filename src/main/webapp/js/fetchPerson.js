@@ -17,7 +17,7 @@ function getPersonByPhone(ev) {
  * adds Modal overlay into body of index.html
  */
 function insertModal() {
-    $.get("modalPhoneNumber.html", {}, function (results) {
+    $.get("html/modalPhoneNumber.html", {}, function (results) {
         $("#content").append(results);
     });
 }
