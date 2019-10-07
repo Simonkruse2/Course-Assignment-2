@@ -18,7 +18,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
-
 @Entity
 @NamedQuery(name = "Person.deleteAllRows", query = "DELETE from Person")
 public class Person implements Serializable {
@@ -27,18 +26,18 @@ public class Person implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int personID;
-    
+
     @Column(name = "email")
     private String email;
     private String firstName;
     private String lastName;
-    
+
     @OneToMany(
             mappedBy = "person",
             cascade = CascadeType.PERSIST
     )
     private List<Phone> phones = new ArrayList();
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "addressID")
     private Address address;
@@ -48,8 +47,8 @@ public class Person implements Serializable {
         CascadeType.MERGE
     })
     @JoinTable(name = "person_hobbies",
-        joinColumns = @JoinColumn(name = "personID"),
-        inverseJoinColumns = @JoinColumn(name = "hobbyID")
+            joinColumns = @JoinColumn(name = "personID"),
+            inverseJoinColumns = @JoinColumn(name = "hobbyID")
     )
     private List<Hobby> hobbies = new ArrayList<>();
 
@@ -69,15 +68,16 @@ public class Person implements Serializable {
         this.address = address;
         address.addPerson(this);
     }
-    
+
     public Address getAddress() {
         return address;
     }
 
     public void setAddress(Address address) {
         this.address = address;
-        if(!address.getPersons().contains(this))
+        if (!address.getPersons().contains(this)) {
             address.addPerson(this);
+        }
     }
 
     public void setPhones(ArrayList<Phone> phones) {
@@ -88,6 +88,19 @@ public class Person implements Serializable {
         this.hobbies = hobbies;
     }
 
+    public List<Hobby> getHobbies() {
+        return hobbies;
+    }
+
+    public void addHobby(Hobby hobby) {
+        if (!hobbies.contains(hobby)) {
+            hobbies.add(hobby);
+        }
+        if (!hobby.getPersons().contains(this)) {
+            hobby.getPersons().add(this);
+        }
+    }
+
     public List<Phone> getPhones() {
         return phones;
     }
@@ -95,7 +108,7 @@ public class Person implements Serializable {
     public void addPhone(Phone phone) {
         phones.add(phone);
     }
-        
+
     public int getPersonID() {
         return personID;
     }
@@ -169,7 +182,5 @@ public class Person implements Serializable {
         }
         return true;
     }
-    
-    
-    
+
 }
