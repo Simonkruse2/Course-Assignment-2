@@ -233,7 +233,7 @@ public class PersonResourceTest {
     public void testGetCountPersonByHobby() {
         System.out.println("getCountPersonByHobby");
         PersonResource instance = new PersonResource();
-        instance.getCountPersonByHobby();
+//        instance.getCountPersonByHobby();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

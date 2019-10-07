@@ -1,5 +1,6 @@
 package rest;
 
+import dto.HobbyOutDTO;
 import dto.PersonOutDTO;
 import dto.ZipCodeOutDTO;
 import entities.Hobby;
@@ -160,17 +161,12 @@ public class PersonResource {
             tags = {"hobby"},
             responses = {
                 @ApiResponse(
-                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonOutDTO.class))),
+                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = HobbyOutDTO.class))),
                 @ApiResponse(responseCode = "200", description = "The count of a given hobby"),
                 @ApiResponse(responseCode = "404", description = "Hobby not found")})
-    public int getCountPersonByHobby() {
-        Person p1 = new Person("info@simonskodebiks.dk", "Gũnther", "Steiner");
-        Person p2 = new Person("kontakt@simonskodebiks.dk", "Osvaldo", "Ardiles");
-        Hobby hobby = new Hobby("Football", "A game revolving around a ball");
-        List<Hobby> hobbies = new ArrayList();
-        hobbies.add(hobby);
-        p1.setHobbies(hobbies);
-        p2.setHobbies(hobbies);
+    public int getCountPersonByHobby(@PathParam("hobby") String hobby) {
+        List<HobbyOutDTO> hobbies = new ArrayList();
+        hobbies.add(new HobbyOutDTO("Tennis", "Green ball"));
         return hobbies.size();
     }
 

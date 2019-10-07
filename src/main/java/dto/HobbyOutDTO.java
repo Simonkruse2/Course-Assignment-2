@@ -1,0 +1,47 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+
+/**
+ *
+ * @author simon
+ */
+@Schema(name = "HobbyInfo")
+public class HobbyOutDTO {
+
+    private int hobbyID;
+    @Schema(required = true, example = "Football")
+    private String name;
+    @Schema(required = true, example = "A game revolving around a ball")
+    private String description;
+
+    public HobbyOutDTO(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public HobbyOutDTO() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+}
