@@ -5,6 +5,7 @@
  */
 package dto;
 
+import entities.Hobby;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
@@ -20,9 +21,9 @@ public class HobbyOutDTO {
     @Schema(required = true, example = "A game revolving around a ball")
     private String description;
 
-    public HobbyOutDTO(String name, String description) {
-        this.name = name;
-        this.description = description;
+    public HobbyOutDTO(Hobby hobby) {
+        this.name = hobby.getName();
+        this.description = hobby.getDescription();
     }
 
     public HobbyOutDTO() {
