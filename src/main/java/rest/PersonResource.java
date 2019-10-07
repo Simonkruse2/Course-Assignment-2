@@ -157,4 +157,28 @@ public class PersonResource {
     public void getAllZipCodes() {
     }
 
+    //    Get all persons living in a given city (i.e. 2800 Lyngby)
+    @GET
+    @Path("hobby/{hobby}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Get Person info by hobby",
+            tags = {"person"},
+            responses = {
+                @ApiResponse(
+                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonOutDTO.class))),
+                @ApiResponse(responseCode = "200", description = "The Requested Persons"),
+                @ApiResponse(responseCode = "404", description = "Person not found")})
+    public List<PersonOutDTO> getPersonsInfoByHobby(@PathParam("hobby") String hobby) {
+        if (hobby != null && hobby.equals("golf")) {
+            // for test
+            List<PersonOutDTO> persons = new ArrayList<>();
+            persons.add(new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner"));
+            return persons;
+        } else {
+            // here should be something real :-)
+            List<PersonOutDTO> persons = new ArrayList<>();
+            persons.add(new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner"));
+            return persons;
+        }
+    }
 }
