@@ -2,6 +2,8 @@ package rest;
 
 import dto.PersonOutDTO;
 import dto.ZipCodeOutDTO;
+import entities.Hobby;
+import entities.Person;
 import utils.EMF_Creator;
 import facades.PersonFacade;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -75,7 +77,7 @@ public class PersonResource {
                 @ApiResponse(responseCode = "404", description = "Person not found")})
 
     public PersonOutDTO getPersonInfo(@PathParam("id") int personID) {
-        if (personID > 0 && personID== 99999) {
+        if (personID > 0 && personID == 99999) {
             // for test
             return new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner");
         } else {
@@ -151,7 +153,25 @@ public class PersonResource {
     }
 
 //    Get the count of people with a given hobby
-    public void getCountPersonByHobby() {
+    @GET
+    @Path("count/{hobby}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Get the count of people with a given hobby",
+            tags = {"hobby"},
+            responses = {
+                @ApiResponse(
+                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonOutDTO.class))),
+                @ApiResponse(responseCode = "200", description = "The count of a given hobby"),
+                @ApiResponse(responseCode = "404", description = "Hobby not found")})
+    public int getCountPersonByHobby() {
+        Person p1 = new Person("info@simonskodebiks.dk", "Gũnther", "Steiner");
+        Person p2 = new Person("kontakt@simonskodebiks.dk", "Osvaldo", "Ardiles");
+        Hobby hobby = new Hobby("Football", "A game revolving around a ball");
+        List<Hobby> hobbies = new ArrayList();
+        hobbies.add(hobby);
+        p1.setHobbies(hobbies);
+        p2.setHobbies(hobbies);
+        return hobbies.size();
     }
 
 //    Get a list of all zip codes in Denmark
