@@ -19,7 +19,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -227,4 +230,28 @@ public class PersonResource {
             return persons;
         }
     }
+    
+    @PUT
+    public void editPersonCoreInformation(){}
+    
+    @PUT
+    public void editPersonAddress(){}
+    
+    @POST
+    public void addHobby(){}
+    
+    @DELETE
+    public void deleteHobby(){}
+    
+    @POST
+    public void addPhone(){}
+    
+    @DELETE
+    public void deletePhone(){}
+    
+    @POST
+    public void createPerson(){}
+    
+    @DELETE
+    public void deletePerson(){}
 }
