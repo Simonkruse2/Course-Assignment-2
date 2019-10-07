@@ -125,9 +125,28 @@ public class PersonResource {
     }
 
 //    Get all persons living in a given city (i.e. 2800 Lyngby)
-    public List<PersonOutDTO> getAllPersonsInfoByCity() {
-        List<PersonOutDTO> p = new ArrayList();
-        return p;
+    @GET
+    @Path("zipcode/{zipcode}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Get Person info by zipcode",
+            tags = {"person"},
+            responses = {
+                @ApiResponse(
+                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonOutDTO.class))),
+                @ApiResponse(responseCode = "200", description = "The Requested Persons"),
+                @ApiResponse(responseCode = "404", description = "Person not found")})
+    public List<PersonOutDTO> getAllPersonsInfoByCity(@PathParam("zipCode") String zipCode) {
+        if (zipCode != null && zipCode.equals("1234")) {
+            // for test
+            List<PersonOutDTO> persons = new ArrayList<>();
+            persons.add(new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner"));
+            return persons;
+        } else {
+            // here should be something real :-)
+            List<PersonOutDTO> persons = new ArrayList<>();
+            persons.add(new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner"));
+            return persons;
+        }
     }
 
 //    Get the count of people with a given hobby
