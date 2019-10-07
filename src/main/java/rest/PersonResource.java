@@ -1,6 +1,7 @@
 package rest;
 
 import dto.PersonOutDTO;
+import dto.ZipCodeOutDTO;
 import utils.EMF_Creator;
 import facades.PersonFacade;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -154,10 +155,25 @@ public class PersonResource {
     }
 
 //    Get a list of all zip codes in Denmark
-    public void getAllZipCodes() {
+    @GET
+    @Path("zipcode/all")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Get all zipcodes",
+            tags = {"zipcode"},
+            responses = {
+                @ApiResponse(
+                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = ZipCodeOutDTO.class))),
+                @ApiResponse(responseCode = "200", description = "The Requested Persons"),
+                @ApiResponse(responseCode = "404", description = "Person not found")})
+    public List<ZipCodeOutDTO> getAllZipCodes() {
+        //dummy data
+        List<ZipCodeOutDTO> zipcodes = new ArrayList<>();
+        zipcodes.add(new ZipCodeOutDTO(1234));
+        zipcodes.add(new ZipCodeOutDTO(5678));
+        return zipcodes;
     }
 
-    //    Get all persons living in a given city (i.e. 2800 Lyngby)
+    //    Get all persons with a given hobby(i.e. golf)
     @GET
     @Path("hobby/{hobby}")
     @Produces(MediaType.APPLICATION_JSON)

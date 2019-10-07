@@ -158,7 +158,7 @@ public class PersonFacadeTest {
     /**
      * Test of getAllPersonsWithZipCode method, of class PersonFacade.
      */
-//    @Test
+    @Test
     public void testGetAllPersonsWithZipCode() {
         System.out.println("getZipCodes");
         List<Person> persons = facade.getAllPersonsWithZipCode(2300);
