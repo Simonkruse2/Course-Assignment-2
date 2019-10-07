@@ -143,12 +143,26 @@ public class PersonResource {
         if (zipCode != null && zipCode.equals("1234")) {
             // for test
             List<PersonOutDTO> persons = new ArrayList<>();
-            persons.add(new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner"));
+            PersonOutDTO p = new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner");
+            HobbyOutDTO h1 = new HobbyOutDTO("fodbold", "hver tirsdag");
+            HobbyOutDTO h2 = new HobbyOutDTO("fodbold", "hver tirsdag");
+            ArrayList<HobbyOutDTO> hobbies = new ArrayList<>();
+            hobbies.add(h1);
+            hobbies.add(h2);
+            p.setHobbies(hobbies);
+            persons.add(p);
             return persons;
         } else {
             // here should be something real :-)
             List<PersonOutDTO> persons = new ArrayList<>();
-            persons.add(new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner"));
+            PersonOutDTO p = new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner");
+            HobbyOutDTO h1 = new HobbyOutDTO("fodbold", "hver tirsdag");
+            HobbyOutDTO h2 = new HobbyOutDTO("fodbold", "hver tirsdag");
+            ArrayList<HobbyOutDTO> hobbies = new ArrayList<>();
+            hobbies.add(h1);
+            hobbies.add(h2);
+            p.setHobbies(hobbies);
+            persons.add(p);
             return persons;
         }
     }

@@ -1,6 +1,7 @@
 package dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.ArrayList;
 
 @Schema(name = "PersonInfo")
 public class PersonOutDTO {
@@ -15,7 +16,18 @@ public class PersonOutDTO {
     
     @Schema(required = true, example = "Steiner")
     private String lastName;
+    
+    @Schema(required = true)
+    private ArrayList<HobbyOutDTO> hobbies;
 
+    public ArrayList<HobbyOutDTO> getHobbies() {
+        return hobbies;
+    }
+
+    public void setHobbies(ArrayList<HobbyOutDTO> hobbies) {
+        this.hobbies = hobbies;
+    }
+    
     public PersonOutDTO(String email, String firstName, String lastName) {
         this.email = email;
         this.firstName = firstName;
