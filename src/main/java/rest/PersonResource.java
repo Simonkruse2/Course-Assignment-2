@@ -4,10 +4,12 @@ import dto.HobbyOutDTO;
 import dto.PersonOutDTO;
 import dto.CityInfoOutDTO;
 import dto.PersonHobbyOutDTO;
+import dto.PhoneOutDTO;
 import entities.Address;
 import entities.CityInfo;
 import entities.Hobby;
 import entities.Person;
+import entities.Phone;
 import errorhandling.ExceptionDTO;
 import utils.EMF_Creator;
 import facades.PersonFacade;
@@ -274,7 +276,7 @@ public class PersonResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(summary = "Add a new hobby to a person", tags = {"hobby"},
             responses = {
-                @ApiResponse(responseCode = "200", description = "The Newly created Person"),
+                @ApiResponse(responseCode = "200", description = "Person with added hobby"),
                 @ApiResponse(responseCode = "400", description = "Not all arguments provided with the body")
             })
     public PersonOutDTO addHobby(PersonOutDTO person) throws ExceptionDTO {
@@ -295,7 +297,26 @@ public class PersonResource {
     }
 
     //@POST
-    public void addPhone() {
+ @POST
+    @Path("phone/add")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Add a new phone to a person", tags = {"phone"},
+            responses = {
+                @ApiResponse(responseCode = "200", description = "Person with added phone"),
+                @ApiResponse(responseCode = "400", description = "Not all arguments provided with the body")
+            })
+    public PersonOutDTO addPhone(PersonOutDTO person) throws ExceptionDTO {
+        if (person.getFirstName() == null || person.getLastName() == null || person.getEmail() == null || person.getAddress() == null) {
+            throw new ExceptionDTO(400, "Not all required arguments included");
+        }
+        //dummy data
+        PersonOutDTO p = new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
+        PhoneOutDTO newPhone = new PhoneOutDTO();
+        newPhone.setDescription("work phone");
+        newPhone.setPhoneNumber("223344");
+        person.getPhones().add(newPhone);
+        return person;
     }
 
     //@DELETE
