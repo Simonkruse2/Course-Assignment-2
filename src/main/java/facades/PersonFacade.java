@@ -1,14 +1,15 @@
 package facades;
 
+import dto.HobbyOutDTO;
+import dto.PersonHobbyOutDTO;
+import entities.Address;
 import entities.Hobby;
 import entities.Person;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.persistence.Persistence;
 
 /**
  *
@@ -39,23 +40,43 @@ public class PersonFacade {
         return emf.createEntityManager();
     }
 
-    public Person getPerson(int personID){
+    public Person getPerson(int personID) {
         EntityManager em = emf.createEntityManager();
-      try {
+        try {
             Person p = em.find(Person.class, personID);
             return p;
         } finally {
             em.close();
         }
     }
-    
+
     // Get information about a person (address, hobbies etc) given a phone number
-    public List<Person> getPersonByPhoneNumber(String phoneNumber) {
+    public List<PersonHobbyOutDTO> getPersonByPhoneNumber(String phoneNumber) {
         EntityManager em = emf.createEntityManager();
         try {
-            TypedQuery<Person> query = (TypedQuery<Person>) em.createQuery("SELECT c FROM Person c JOIN c.phones p WHERE p.phoneNumber = :phoneNumber");
+            TypedQuery<Person> query = (TypedQuery<Person>) em.createQuery("SELECT p FROM Person p JOIN p.phones ph WHERE ph.phoneNumber = :phoneNumber");
             query.setParameter("phoneNumber", phoneNumber);
-            List<Person> results = query.getResultList();
+            
+            Person person = query.getResultList().get(0);
+
+            TypedQuery<Hobby> queryHobby
+                    = (TypedQuery<Hobby>) em.createQuery("SELECT h FROM Hobby h JOIN h.persons p WHERE p.personID = :personID");
+            queryHobby.setParameter("personID", person.getPersonID());
+            
+            TypedQuery<Address> queryAddress
+                    = (TypedQuery<Address>) em.createQuery("SELECT a FROM Address a JOIN a.persons p WHERE p.personID = :personID");
+            queryHobby.setParameter("personID", person.getPersonID());
+            
+            String address = "ToDogade 2"; //queryAddress.getResultList().get(0);
+            List<Hobby> hob = queryHobby.getResultList();
+//            ArrayList<HobbyOutDTO> hobOUT = new ArrayList();
+//            for (Hobby hobby : queryHobby.getResultList()) {
+//                hobOUT.add(new HobbyOutDTO(hobby));
+//            }
+            PersonHobbyOutDTO pOUT = new PersonHobbyOutDTO(person.getEmail(), person.getFirstName(), person.getLastName(), address, hob);
+            
+            List<PersonHobbyOutDTO> results = new ArrayList();
+            results.add(pOUT);
             return results;
         } finally {
             em.close();
@@ -68,7 +89,7 @@ public class PersonFacade {
     }
 
     // Get all persons living in a given city (i.e. 2800 Lyngby)
-    public List<Person> getAllPersonsWithZipCode(int zipcode){
+    public List<Person> getAllPersonsWithZipCode(int zipcode) {
         EntityManager em = emf.createEntityManager();
         try {
             TypedQuery<Person> query

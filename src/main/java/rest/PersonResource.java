@@ -3,6 +3,7 @@ package rest;
 import dto.HobbyOutDTO;
 import dto.PersonOutDTO;
 import dto.CityInfoOutDTO;
+import dto.PersonHobbyOutDTO;
 import entities.Address;
 import entities.CityInfo;
 import entities.Hobby;
@@ -102,17 +103,20 @@ public class PersonResource {
             tags = {"person"},
             responses = {
                 @ApiResponse(
-                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonOutDTO.class))),
+                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonHobbyOutDTO.class))),
                 @ApiResponse(responseCode = "200", description = "The Requested Person"),
                 @ApiResponse(responseCode = "404", description = "Person not found")})
 
-    public PersonOutDTO getPersonInfoByPhoneNumber(@PathParam("phoneNumber") String phoneNumber) {
+    public PersonHobbyOutDTO getPersonInfoByPhoneNumber(@PathParam("phoneNumber") String phoneNumber) {
+        List<Hobby> hob = new ArrayList();
+        hob.add(new Hobby("Cykling", "Cykling på hold"));
+        hob.add(new Hobby("Film", "Gyserfilm"));
         if (phoneNumber != null && phoneNumber.equals("1234")) {
             // for test
-            return new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
+            return new PersonHobbyOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner", "Street addInfogade2, 1234 KBH", hob);
         } else {
-            // here should be something real :-)
-            return new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
+            PersonHobbyOutDTO pOut = FACADE.getPersonByPhoneNumber(phoneNumber).get(0);
+            return pOut;
         }
     }
 
