@@ -54,6 +54,13 @@ public class PersonOutDTO {
         }
         this.address = new AddressOutDTO(person.getAddress());
     }
+    
+    public PersonOutDTO(String email, String firstName, String lastName, ArrayList<HobbyOutDTO> hobbies) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.hobbies = hobbies;
+    }
 
     public ArrayList<PhoneOutDTO> getPhones() {
         return phones;
