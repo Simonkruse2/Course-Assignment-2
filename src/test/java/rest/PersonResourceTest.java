@@ -12,7 +12,10 @@ import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
 import io.restassured.parsing.Parser;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.core.UriBuilder;
@@ -249,11 +252,70 @@ public class PersonResourceTest {
     public void testGetAllZipCodes() {
         given()
                 .contentType("application/json")
-                .get("/person/zipcode/all").then().log().body()
+                .get("/person/zipcode/all").then()
                 .assertThat()
                 .statusCode(HttpStatus.OK_200.getStatusCode())
                 .body("city", hasItems("ABC", "DEF"))
                 .body("zipCode", hasItems(1234, 5678));
     }
+    
+    /**
+     * Test of createPerson method, of class PersonResource.
+     */
+//    @Test
+//    public void testCreatePerson(){
+//        
+//        List<Map<String, Object>> hobbies = new ArrayList<>();
+//        Map<String, Object> hobby1 = new HashMap<>();
+//        hobby1.put("name", "football");
+//        hobby1.put("description", "Every tuesday");
+//        hobbies.add(hobby1);
+//        Map<String, Object> hobby2 = new HashMap<>();
+//        hobby2.put("name", "programming");
+//        hobby2.put("description", "all the time");
+//        hobbies.add(hobby2);
+//        
+//        List<Map<String, Object>> phones = new ArrayList<>();
+//        Map<String, Object> phone1 = new HashMap<>();
+//        phone1.put("phone", "12345");
+//        phone1.put("description", "mobile");
+//        phones.add(phone1);
+//        Map<String, Object> phone2 = new HashMap<>();
+//        phone2.put("phone", "4444");
+//        phone2.put("description", "work");
+//        phones.add(phone2);
+//        
+//        Map<String, Object> cityInfo = new HashMap<>();
+//        cityInfo.put("zipcode", 1234);
+//        cityInfo.put("city", "KBH");
+//        
+//        Map<String, Object> address = new HashMap<>();
+//        address.put("street", "Jacobsvej");
+//        address.put("additionalInfo", "Første sal");
+//        address.put("street", "Jacobsvej");
+//        address.put("cityInfo", cityInfo);
+//                
+//        Map<String, Object> personData = new HashMap<>();
+//        personData.put("personID", 0);
+//        personData.put("email", "info@simonskodebiks.dk");
+//        personData.put("fistName", "Gũnther");
+//        personData.put("lastName", "Steiner");
+//        personData.put("hobbies", hobbies);
+//        personData.put("phones", phones);
+//        personData.put("address", address);
+//                              
+//        given()
+//                .contentType("application/json")
+//                .accept("application/json")
+//                .body(personData)
+//                .when()
+//                .post("/person/create").then().log().body()
+//                .assertThat()
+//                .statusCode(HttpStatus.OK_200.getStatusCode())
+//                .body("email", hasItems("info@simonskodebiks.dk"))
+//                .body("firstName", hasItems("Gũnther"))
+//                .body("lastName", hasItems("Steiner"))
+//                .body("hobbies.name", hasItems("football","programming"));
+//    }
 
 }

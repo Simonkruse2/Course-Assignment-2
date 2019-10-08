@@ -244,7 +244,7 @@ public class PersonResource {
     }
 
     @PUT
-    @Path("person/edit")
+    @Path("edit/{person}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(summary = "Edit existing person", tags = {"person"},
@@ -284,7 +284,7 @@ public class PersonResource {
     }
 
     @POST
-    @Path("person/create")
+    @Path("create")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(summary = "Create new Person", tags = {"person"},
