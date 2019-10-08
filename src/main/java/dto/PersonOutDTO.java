@@ -21,15 +21,15 @@ public class PersonOutDTO {
     @Schema(required = true, example = "Steiner")
     private String lastName;
     
-    @Schema(required = true, example = "[\"Football\",\"Programming\"]")
+    @Schema(required = true, example = "[{\"names\":\"football\",\"description\":\"Every tuesday\"}, {\"names\":\"programming\",\"description\":\"all the time\"}]")
     private ArrayList<HobbyOutDTO> hobbies;
     
     @Schema(required = true, example = "[{\"phone\":\"12345\",\"description\":\"mobile\"}, {\"phone\":\"4444\",\"description\":\"work\"}]")
     private ArrayList<PhoneOutDTO> phones;
     
-    @Schema(required = true, example = "[{\"street\":\"Jacobsvej\","
+    @Schema(required = true, example = "{\"street\":\"Jacobsvej\","
             + "\"addiontinalInfo\":\"Første sal\","
-            + " \"cityInfo\":{\"zipcode\":\"1234\",\"city\":\"KBH\"}}]")
+            + " \"cityInfo\":{\"zipcode\":\"1234\",\"city\":\"KBH\"}}")
     private AddressOutDTO address;
     
     public ArrayList<HobbyOutDTO> getHobbies() {

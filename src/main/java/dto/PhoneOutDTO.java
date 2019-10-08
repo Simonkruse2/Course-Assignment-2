@@ -18,6 +18,9 @@ public class PhoneOutDTO {
         this.description = phone.getDescription();
     }
 
+    public PhoneOutDTO() {
+    }
+       
     public String getPhoneNumber() {
         return phoneNumber;
     }

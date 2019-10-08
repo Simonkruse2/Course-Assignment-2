@@ -21,6 +21,7 @@ import org.glassfish.grizzly.http.util.HttpStatus;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItems;
 import org.junit.After;
 import org.junit.jupiter.api.AfterAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -215,15 +216,17 @@ public class PersonResourceTest {
     /**
      * Test of getAllPersonsInfoByCity method, of class PersonResource.
      */
-//    @Test
+    @Test
     public void testGetAllPersonsInfoByCity() {
         System.out.println("getAllPersonsInfoByCity");
-        PersonResource instance = new PersonResource();
-        List<PersonOutDTO> expResult = null;
-        //List<PersonOutDTO> result = instance.getAllPersonsInfoByCity();
-        //assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        given()
+                .contentType("application/json")
+                .get("/person/zipcode/1234").then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .body("email", hasItems("info@simonskodebiks.dk"))
+                .body("firstName", hasItems("Gũnther"))
+                .body("lastName", hasItems("Steiner"));
     }
 
     /**
@@ -241,13 +244,15 @@ public class PersonResourceTest {
     /**
      * Test of getAllZipCodes method, of class PersonResource.
      */
-//    @Test
+    @Test
     public void testGetAllZipCodes() {
-        System.out.println("getAllZipCodes");
-        PersonResource instance = new PersonResource();
-        instance.getAllZipCodes();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        given()
+                .contentType("application/json")
+                .get("/person/zipcode/all").then().log().body()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .body("city", hasItems("ABC", "DEF"))
+                .body("zipCode", hasItems(1234, 5678));
     }
 
 }

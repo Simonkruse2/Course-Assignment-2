@@ -17,6 +17,11 @@ public class CityInfoOutDTO {
         this.city = cityInfo.getCity();
     }
 
+    public CityInfoOutDTO() {
+    }
+    
+    
+
     public int getZipCode() {
         return zipCode;
     }

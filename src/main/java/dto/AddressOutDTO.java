@@ -1,6 +1,7 @@
 package dto;
 
 import entities.Address;
+import entities.CityInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public class AddressOutDTO {
@@ -15,6 +16,19 @@ public class AddressOutDTO {
     public AddressOutDTO(Address address) {
         this.street = address.getStreet();
         this.additionalInfo = address.getAdditionalInfo();
+        CityInfo ci = address.getCityInfo();
+        this.cityInfo = new CityInfoOutDTO(ci);
+    }
+
+    public AddressOutDTO() {
+    }
+
+    public CityInfoOutDTO getCityInfo() {
+        return cityInfo;
+    }
+
+    public void setCityInfo(CityInfoOutDTO cityInfo) {
+        this.cityInfo = cityInfo;
     }
 
     public String getStreet() {

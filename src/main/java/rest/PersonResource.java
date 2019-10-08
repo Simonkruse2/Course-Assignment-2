@@ -152,7 +152,7 @@ public class PersonResource {
             List<PersonOutDTO> persons = new ArrayList<>();
             PersonOutDTO p = new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
             HobbyOutDTO h1 = new HobbyOutDTO(new Hobby("fodbold", "hver tirsdag"));
-            HobbyOutDTO h2 = new HobbyOutDTO(new Hobby("fodbold", "hver tirsdag"));
+            HobbyOutDTO h2 = new HobbyOutDTO(new Hobby("fodbold", "hver onsdag"));
             ArrayList<HobbyOutDTO> hobbies = new ArrayList<>();
             hobbies.add(h1);
             hobbies.add(h2);
@@ -164,7 +164,7 @@ public class PersonResource {
             List<PersonOutDTO> persons = new ArrayList<>();
             PersonOutDTO p = new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
             HobbyOutDTO h1 = new HobbyOutDTO(new Hobby("fodbold", "hver tirsdag"));
-            HobbyOutDTO h2 = new HobbyOutDTO(new Hobby("fodbold", "hver tirsdag"));
+            HobbyOutDTO h2 = new HobbyOutDTO(new Hobby("fodbold", "hver onsdag"));
             ArrayList<HobbyOutDTO> hobbies = new ArrayList<>();
             hobbies.add(h1);
             hobbies.add(h2);
@@ -234,44 +234,69 @@ public class PersonResource {
             return persons;
         }
     }
-    
+
     //@PUT
-    public void editPersonCoreInformation(){}
-    
-    //@PUT
-    public void editPersonAddress(){}
-    
+    public void editPersonAddress() {
+    }
+
+    @PUT
+    @Path("person/edit")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Edit existing person", tags = {"person"},
+            responses = {
+                @ApiResponse(responseCode = "200", description = "The edited person"),
+                @ApiResponse(responseCode = "400", description = "Not all arguments provided with the body")
+            })
+    public PersonOutDTO editPersonCoreInformation(PersonOutDTO person) throws ExceptionDTO {
+        if (person.getFirstName() == null || person.getLastName() == null || person.getEmail() == null || person.getAddress() == null) {
+            throw new ExceptionDTO(400, "Not all required arguments included");
+        }
+        //dummy data
+        PersonOutDTO p = new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
+        HobbyOutDTO h1 = new HobbyOutDTO(new Hobby("fodbold", "hver tirsdag"));
+        HobbyOutDTO h2 = new HobbyOutDTO(new Hobby("fodbold", "hver onsdag"));
+        ArrayList<HobbyOutDTO> hobbies = new ArrayList<>();
+        hobbies.add(h1);
+        hobbies.add(h2);
+        p.setHobbies(hobbies);
+        return p;
+    }
+
     //@POST
-    public void addHobby(){}
-    
+    public void addHobby() {
+    }
+
     //@DELETE
-    public void deleteHobby(){}
-    
+    public void deleteHobby() {
+    }
+
     //@POST
-    public void addPhone(){}
-    
+    public void addPhone() {
+    }
+
     //@DELETE
-    public void deletePhone(){}
-    
+    public void deletePhone() {
+    }
+
     @POST
     @Path("person/create")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)  
-    @Operation(summary = "Create new Person",tags = {"person"},
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Create new Person", tags = {"person"},
             responses = {
-                    @ApiResponse(responseCode = "200", description = "The Newly created Person"),                       
-                    @ApiResponse(responseCode = "400", description = "Not all arguments provided with the body")
+                @ApiResponse(responseCode = "200", description = "The Newly created Person"),
+                @ApiResponse(responseCode = "400", description = "Not all arguments provided with the body")
             })
-    public PersonOutDTO createPerson(PersonOutDTO person) throws ExceptionDTO{
-        if(person.getFirstName() == null || person.getLastName()==null || person.getEmail()==null || person.getAddress() == null){
+    public PersonOutDTO createPerson(PersonOutDTO person) throws ExceptionDTO {
+        if (person.getFirstName() == null || person.getLastName() == null || person.getEmail() == null || person.getAddress() == null) {
             throw new ExceptionDTO(400, "Not all required arguments included");
         }
         //dummy data
         return new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
     }
 
-    public void createPerson(){}
-    
     //@DELETE
-    public void deletePerson(){}
+    public void deletePerson() {
+    }
 }
