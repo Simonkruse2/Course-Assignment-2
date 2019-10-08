@@ -268,7 +268,26 @@ public class PersonResource {
     }
 
     //@POST
-    public void addHobby() {
+    @POST
+    @Path("hobby/add")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Add a new hobby to a person", tags = {"hobby"},
+            responses = {
+                @ApiResponse(responseCode = "200", description = "The Newly created Person"),
+                @ApiResponse(responseCode = "400", description = "Not all arguments provided with the body")
+            })
+    public PersonOutDTO addHobby(PersonOutDTO person) throws ExceptionDTO {
+        if (person.getFirstName() == null || person.getLastName() == null || person.getEmail() == null || person.getAddress() == null) {
+            throw new ExceptionDTO(400, "Not all required arguments included");
+        }
+        //dummy data
+        PersonOutDTO p = new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
+        HobbyOutDTO hobby = new HobbyOutDTO(new Hobby("golf", "totalt handicapped"));
+        ArrayList<HobbyOutDTO> hobbies = new ArrayList<>();
+        hobbies.add(hobby);
+        person.setHobbies(hobbies);
+        return person;
     }
 
     //@DELETE
