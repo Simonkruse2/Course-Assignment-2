@@ -1,5 +1,6 @@
 package facades;
 
+import dto.PersonDTO;
 import dto.PersonHobbyOutDTO;
 import entities.Address;
 import entities.CityInfo;
@@ -211,6 +212,28 @@ public class PersonFacade {
         }
         return "{\"status\":\"filled\"}";
     }
+
+    public PersonDTO createPerson(String email, String firstName, String lastName, String street, int zipcode) {
+        emf = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.DEV, EMF_Creator.Strategy.CREATE);
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            CityInfo ci = new CityInfo(zipcode, null);
+            em.persist(ci);
+            Address a = new Address(street, null, ci);
+            em.persist(a);
+            Person p = new Person(email, firstName, lastName, a);
+            em.persist(p);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new PersonDTO(email, firstName, lastName, street, zipcode);
+    }
     
-    
+//    public static void main(String[] args) {
+//        EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.DEV, EMF_Creator.Strategy.CREATE);
+//        PersonFacade pf = PersonFacade.getFacadeExample(emf);
+//        pf.createPerson("email", "firstName", "lastName", "street", 0);
+//    }
 }

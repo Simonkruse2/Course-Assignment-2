@@ -104,7 +104,7 @@ public class Address implements Serializable {
         int hash = 5;
         hash = 97 * hash + Objects.hashCode(this.addressID);
         hash = 97 * hash + Objects.hashCode(this.street);
-        hash = 97 * hash + Objects.hashCode(this.additionalInfo);
+        //hash = 97 * hash + Objects.hashCode(this.additionalInfo);
         hash = 97 * hash + Objects.hashCode(this.cityInfo);
         hash = 97 * hash + Objects.hashCode(this.persons);
         return hash;

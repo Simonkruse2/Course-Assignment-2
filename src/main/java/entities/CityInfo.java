@@ -84,8 +84,8 @@ public class CityInfo implements Serializable {
         int hash = 7;
         hash = 67 * hash + Objects.hashCode(this.cityInfoID);
         hash = 67 * hash + this.zipCode;
-        hash = 67 * hash + Objects.hashCode(this.city);
-        hash = 67 * hash + Objects.hashCode(this.addresses);
+        //hash = 67 * hash + Objects.hashCode(this.city);
+        //hash = 67 * hash + Objects.hashCode(this.addresses);
         return hash;
     }
 
