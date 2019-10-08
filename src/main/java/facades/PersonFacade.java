@@ -2,14 +2,17 @@ package facades;
 
 import dto.PersonHobbyOutDTO;
 import entities.Address;
+import entities.CityInfo;
 import entities.Hobby;
 import entities.Person;
+import entities.Phone;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import jdk.nashorn.internal.runtime.logging.Loggable;
+import utils.EMF_Creator;
 
 /**
  *
@@ -114,9 +117,98 @@ public class PersonFacade {
         }
     }
 
-    // Get a list of all zip codes in Denmark
+    // empty production database
     public void getAllZipCodes() {
-
     }
 
+    public String emptyDB() {
+        emf = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.DEV, EMF_Creator.Strategy.CREATE);
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.createNamedQuery("Phone.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Person.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Address.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Hobby.deleteAllRows").executeUpdate();
+            em.createNamedQuery("CityInfo.deleteAllRows").executeUpdate();
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return "{\"status\":\"emptied\"}";
+    }
+
+    public String fillUp() {
+        emf = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.DEV, EMF_Creator.Strategy.CREATE);
+        EntityManager em = emf.createEntityManager();
+        Person p1, p2;
+        Hobby h1, h2, h3;
+        Address a1, a2;
+        CityInfo c1, c2;
+        Phone phone1, phone2, phone3;
+        em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            c1 = new CityInfo(2100, "KBH Ø");
+            c2 = new CityInfo(2300, "KBH S");
+            em.persist(c1);
+            em.persist(c2);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+
+        em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            h1 = new Hobby("Cykling", "Cykling på hold");
+            h2 = new Hobby("Film", "Gyserfilm");
+            h3 = new Hobby("Film", "Dramafilm");
+            em.persist(h1);
+            em.persist(h2);
+            em.persist(h3);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+
+        em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            a1 = new Address("Testgade", "dejligt sted", c1);
+            a2 = new Address("Testvej", "fint sted", c2);
+            em.persist(a1);
+            em.persist(a2);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+
+        em = emf.createEntityManager();
+        try {
+            p1 = new Person("email@email.com", "Gurli", "Mogensen", a1);
+            p2 = new Person("mail@mail.com", "Gunnar", "Hjorth", a2);
+            em.getTransaction().begin();
+            em.persist(p1);
+            em.persist(p2);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+
+        em = emf.createEntityManager();
+        try {
+            phone1 = new Phone("1234", "hjemmetelefon", p1);
+            phone2 = new Phone("5678", "mobil", p1);
+            phone3 = new Phone("4321", "arbejdstelefon", p2);
+            em.getTransaction().begin();
+            em.persist(phone1);
+            em.persist(phone2);
+            em.persist(phone3);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return "{\"status\":\"filled\"}";
+    }
 }

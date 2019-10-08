@@ -8,6 +8,7 @@ import entities.Address;
 import entities.CityInfo;
 import entities.Hobby;
 import entities.Person;
+import entities.Phone;
 import errorhandling.ExceptionDTO;
 import utils.EMF_Creator;
 import facades.PersonFacade;
@@ -20,8 +21,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -32,6 +35,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriBuilder;
+import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.server.ResourceConfig;
 
 @OpenAPIDefinition(
         info = @Info(
@@ -303,4 +310,35 @@ public class PersonResource {
     //@DELETE
     public void deletePerson() {
     }
+
+    //    fill db with data
+    @GET
+    @Path("fill")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Fill data into database",
+            tags = {"default"},
+            responses = {
+                //                @ApiResponse(
+                //                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonOutDTO.class))),
+                @ApiResponse(responseCode = "200", description = "Database is filled")
+            })
+    public String getFilling() {
+        return FACADE.fillUp();
+    }
+
+    //    empty db
+    @GET
+    @Path("empty")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Empty database",
+            tags = {"default"},
+            responses = {
+                //                @ApiResponse(
+                //                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonOutDTO.class))),
+                @ApiResponse(responseCode = "200", description = "Data has been deleted")
+            })
+    public String getDeleting() {
+        return FACADE.emptyDB();
+    }
+
 }
