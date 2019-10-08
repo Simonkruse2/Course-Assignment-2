@@ -144,9 +144,9 @@ public class PersonFacadeTest {
     @Test
     public void testGetPersonByPhoneNumber() {
         System.out.println("getPersonByPhoneNumber");
-        List<PersonHobbyOutDTO> instance = facade.getPersonByPhoneNumber("1234");
+        PersonHobbyOutDTO instance = facade.getPersonByPhoneNumber("1234");
         // we should be comparing ID's but there's no ID in the PersonOutDTO, so not bothering this time
-        assertEquals(instance.get(0).getFirstName(), p1.getFirstName());
+        assertEquals(instance.getFirstName(), p1.getFirstName());
     }
 
     /**

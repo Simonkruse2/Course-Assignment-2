@@ -1,15 +1,15 @@
 package facades;
 
-import dto.HobbyOutDTO;
 import dto.PersonHobbyOutDTO;
 import entities.Address;
 import entities.Hobby;
 import entities.Person;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import jdk.nashorn.internal.runtime.logging.Loggable;
 
 /**
  *
@@ -51,22 +51,25 @@ public class PersonFacade {
     }
 
     // Get information about a person (address, hobbies etc) given a phone number
-    public List<PersonHobbyOutDTO> getPersonByPhoneNumber(String phoneNumber) {
+    public PersonHobbyOutDTO getPersonByPhoneNumber(String phoneNumber) {
         EntityManager em = emf.createEntityManager();
+        Person person = null;
         try {
-            TypedQuery<Person> query = (TypedQuery<Person>) em.createQuery("SELECT p FROM Person p JOIN p.phones ph WHERE ph.phoneNumber = :phoneNumber");
-            query.setParameter("phoneNumber", phoneNumber);
-            
-            Person person = query.getResultList().get(0);
+            TypedQuery<Person> query = (TypedQuery<Person>) em.createQuery("SELECT p FROM Person p JOIN p.phones ph WHERE ph.phoneNumber = :phoneNumber").setParameter("phoneNumber", phoneNumber);
+            if (query.getResultList().size() > 0) {
+                person = query.getResultList().get(0);
+            } else {
+                System.out.println("Couldn't find person");
+            }
 
             TypedQuery<Hobby> queryHobby
                     = (TypedQuery<Hobby>) em.createQuery("SELECT h FROM Hobby h JOIN h.persons p WHERE p.personID = :personID");
             queryHobby.setParameter("personID", person.getPersonID());
-            
+
             TypedQuery<Address> queryAddress
                     = (TypedQuery<Address>) em.createQuery("SELECT a FROM Address a JOIN a.persons p WHERE p.personID = :personID");
             queryHobby.setParameter("personID", person.getPersonID());
-            
+
             String address = "ToDogade 2"; //queryAddress.getResultList().get(0);
             List<Hobby> hob = queryHobby.getResultList();
 //            ArrayList<HobbyOutDTO> hobOUT = new ArrayList();
@@ -74,10 +77,10 @@ public class PersonFacade {
 //                hobOUT.add(new HobbyOutDTO(hobby));
 //            }
             PersonHobbyOutDTO pOUT = new PersonHobbyOutDTO(person.getEmail(), person.getFirstName(), person.getLastName(), address, hob);
-            
-            List<PersonHobbyOutDTO> results = new ArrayList();
-            results.add(pOUT);
-            return results;
+
+//            List<PersonHobbyOutDTO> results = new ArrayList();
+//            results.add(pOUT);
+            return pOUT;
         } finally {
             em.close();
         }

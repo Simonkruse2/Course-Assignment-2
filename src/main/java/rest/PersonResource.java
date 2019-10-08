@@ -111,11 +111,11 @@ public class PersonResource {
         List<Hobby> hob = new ArrayList();
         hob.add(new Hobby("Cykling", "Cykling på hold"));
         hob.add(new Hobby("Film", "Gyserfilm"));
-        if (phoneNumber != null && phoneNumber.equals("1234")) {
+        if (phoneNumber != null && phoneNumber.equals("1111")) {
             // for test
             return new PersonHobbyOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner", "Street addInfogade2, 1234 KBH", hob);
         } else {
-            PersonHobbyOutDTO pOut = FACADE.getPersonByPhoneNumber(phoneNumber).get(0);
+            PersonHobbyOutDTO pOut = FACADE.getPersonByPhoneNumber(phoneNumber);
             return pOut;
         }
     }
