@@ -194,7 +194,7 @@ public class PersonResourceTest {
         System.out.println("getPersonInfoByPhoneNumber");
         given()
                 .contentType("application/json")
-                .get("/person/phone/1234").then()
+                .get("/person/phone/1111").then()
                 .assertThat()
                 .statusCode(HttpStatus.OK_200.getStatusCode())
                 .body("email", equalTo("info@simonskodebiks.dk"))
