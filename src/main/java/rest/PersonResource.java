@@ -252,7 +252,7 @@ public class PersonResource {
     }
 
     @PUT
-    @Path("edit/{person}")
+    @Path("edit")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(summary = "Edit existing person", tags = {"person"},
