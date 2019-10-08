@@ -139,6 +139,22 @@ public class PersonFacade {
         return "{\"status\":\"emptied\"}";
     }
 
+    // editPersonCoreInformation
+    public PersonDTO editPCI(PersonDTO person) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            Person personToEdit = em.find(Person.class, person.getPersonID());
+
+            em.getTransaction().begin();
+            em.merge(personToEdit);
+            em.getTransaction().commit();
+
+            return person;
+        } finally {
+            em.close();
+        }
+    }
+
     public String fillUp() {
         emf = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.DEV, EMF_Creator.Strategy.CREATE);
         EntityManager em = emf.createEntityManager();

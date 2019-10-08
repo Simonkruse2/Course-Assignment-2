@@ -3,6 +3,7 @@ package rest;
 import dto.HobbyOutDTO;
 import dto.PersonOutDTO;
 import dto.CityInfoOutDTO;
+import dto.PersonDTO;
 import dto.PersonHobbyOutDTO;
 import dto.PhoneOutDTO;
 import entities.Address;
@@ -260,19 +261,21 @@ public class PersonResource {
                 @ApiResponse(responseCode = "200", description = "The edited person"),
                 @ApiResponse(responseCode = "400", description = "Not all arguments provided with the body")
             })
-    public PersonOutDTO editPersonCoreInformation(PersonOutDTO person) throws ExceptionDTO {
-        if (person.getFirstName() == null || person.getLastName() == null || person.getEmail() == null || person.getAddress() == null) {
+    public PersonDTO editPersonCoreInformation(PersonDTO person) throws ExceptionDTO {
+        if (person.getFirstName() == null || person.getLastName() == null || person.getEmail() == null) {
             throw new ExceptionDTO(400, "Not all required arguments included");
         }
-        //dummy data
-        PersonOutDTO p = new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
-        HobbyOutDTO h1 = new HobbyOutDTO(new Hobby("fodbold", "hver tirsdag"));
-        HobbyOutDTO h2 = new HobbyOutDTO(new Hobby("fodbold", "hver onsdag"));
-        ArrayList<HobbyOutDTO> hobbies = new ArrayList<>();
-        hobbies.add(h1);
-        hobbies.add(h2);
-        p.setHobbies(hobbies);
-        return p;
+        
+        return FACADE.editPCI(person);
+//        //dummy data
+//        PersonOutDTO p = new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
+//        HobbyOutDTO h1 = new HobbyOutDTO(new Hobby("fodbold", "hver tirsdag"));
+//        HobbyOutDTO h2 = new HobbyOutDTO(new Hobby("fodbold", "hver onsdag"));
+//        ArrayList<HobbyOutDTO> hobbies = new ArrayList<>();
+//        hobbies.add(h1);
+//        hobbies.add(h2);
+//        p.setHobbies(hobbies);
+//        return p;
     }
 
     //@POST
