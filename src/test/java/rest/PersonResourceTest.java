@@ -196,7 +196,8 @@ public class PersonResourceTest {
                 .statusCode(HttpStatus.OK_200.getStatusCode())
                 .body("email", equalTo("info@simonskodebiks.dk"))
                 .body("firstName", equalTo("Gũnther"))
-                .body("lastName", equalTo("Steiner"));
+                .body("lastName", equalTo("Steiner"))
+                .body("hobbies.name", hasItems("Cykling","Film"));
     }
 
     /**
