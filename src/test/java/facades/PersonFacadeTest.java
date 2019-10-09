@@ -219,6 +219,20 @@ public class PersonFacadeTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-
-   
+    @Test
+    public void testEditPCI(){
+        System.out.println("Testing editPCI");
+        PersonDTO pDTO = new PersonDTO("email@email.dk", "Johnny", "Johnson", "Johnstreet", 0);
+        pDTO.setPersonID(p1.getPersonID());
+        
+        facade.editPCI(pDTO);
+        PersonDTO p1DTO = facade.getPerson(p1.getPersonID());
+        
+        assertEquals(p1DTO.getPersonID() , pDTO.getPersonID());
+        assertEquals(p1DTO.getFirstName() , pDTO.getFirstName());
+        assertEquals(p1DTO.getLastName() , pDTO.getLastName());
+        assertEquals(p1DTO.getEmail() , pDTO.getEmail());
+        assertNotEquals(p1DTO.getStreet(), pDTO.getStreet());
+        assertNotEquals(p1DTO.getZipcode(), pDTO.getZipcode());
+    }
 }
