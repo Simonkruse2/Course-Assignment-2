@@ -50,6 +50,10 @@ public class Hobby implements Serializable {
         this.hobbyID = hobbyID;
     }
 
+    public List<Person> getPersons() {
+        return persons;
+    }
+
     public String getName() {
         return name;
     }

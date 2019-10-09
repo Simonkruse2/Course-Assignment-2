@@ -1,6 +1,6 @@
 package errorhandling;
 
-public class ExceptionDTO{
+public class ExceptionDTO extends Exception{
 
   public ExceptionDTO(int code, String description){
       this.code = code;

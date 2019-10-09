@@ -1,7 +1,17 @@
 package rest;
 
+import dto.HobbyOutDTO;
 import dto.PersonOutDTO;
-import dto.ZipCodeOutDTO;
+import dto.CityInfoOutDTO;
+import dto.PersonDTO;
+import dto.PersonHobbyOutDTO;
+import dto.PhoneOutDTO;
+import entities.Address;
+import entities.CityInfo;
+import entities.Hobby;
+import entities.Person;
+import entities.Phone;
+import errorhandling.ExceptionDTO;
 import utils.EMF_Creator;
 import facades.PersonFacade;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -13,14 +23,25 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriBuilder;
+import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.server.ResourceConfig;
 
 @OpenAPIDefinition(
         info = @Info(
@@ -74,14 +95,14 @@ public class PersonResource {
                 @ApiResponse(responseCode = "200", description = "The Requested Person"),
                 @ApiResponse(responseCode = "404", description = "Person not found")})
 
-    public PersonOutDTO getPersonInfo(@PathParam("id") int personID) {
-        if (personID > 0 && personID== 99999) {
-            // for test
-            return new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner");
+    public PersonDTO getPersonInfo(@PathParam("id") int personID) throws ExceptionDTO {
+        if (FACADE.getPerson(personID) == null) {
+            throw new WebApplicationException("Person not found", 404);
         } else {
-            // here should be something real :-)
-            return new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner");
+            PersonDTO pDTO = FACADE.getPerson(personID);
+            return pDTO;
         }
+
     }
 
 //    Get information about a person (address, hobbies etc) given a phone number
@@ -92,17 +113,20 @@ public class PersonResource {
             tags = {"person"},
             responses = {
                 @ApiResponse(
-                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonOutDTO.class))),
+                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonHobbyOutDTO.class))),
                 @ApiResponse(responseCode = "200", description = "The Requested Person"),
                 @ApiResponse(responseCode = "404", description = "Person not found")})
 
-    public PersonOutDTO getPersonInfoByPhoneNumber(@PathParam("phoneNumber") String phoneNumber) {
-        if (phoneNumber != null && phoneNumber.equals("1234")) {
+    public PersonHobbyOutDTO getPersonInfoByPhoneNumber(@PathParam("phoneNumber") String phoneNumber) {
+        List<Hobby> hob = new ArrayList();
+        hob.add(new Hobby("Cykling", "Cykling på hold"));
+        hob.add(new Hobby("Film", "Gyserfilm"));
+        if (phoneNumber != null && phoneNumber.equals("1111")) {
             // for test
-            return new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner");
+            return new PersonHobbyOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner", "Street addInfogade2, 1234 KBH", hob);
         } else {
-            // here should be something real :-)
-            return new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner");
+            PersonHobbyOutDTO pOut = FACADE.getPersonByPhoneNumber(phoneNumber);
+            return pOut;
         }
     }
 
@@ -120,8 +144,8 @@ public class PersonResource {
 
     public List<PersonOutDTO> getAllPersonsInfoByHobby() {
         List<PersonOutDTO> p = new ArrayList();
-        p.add(new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner"));
-        p.add(new PersonOutDTO("kontakt@simonskodebiks.dk", "Osvaldo", "Ardiles"));
+        p.add(new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH")))));
+        p.add(new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH")))));
         return p;
     }
 
@@ -140,18 +164,45 @@ public class PersonResource {
         if (zipCode != null && zipCode.equals("1234")) {
             // for test
             List<PersonOutDTO> persons = new ArrayList<>();
-            persons.add(new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner"));
+            PersonOutDTO p = new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
+            HobbyOutDTO h1 = new HobbyOutDTO(new Hobby("fodbold", "hver tirsdag"));
+            HobbyOutDTO h2 = new HobbyOutDTO(new Hobby("fodbold", "hver onsdag"));
+            ArrayList<HobbyOutDTO> hobbies = new ArrayList<>();
+            hobbies.add(h1);
+            hobbies.add(h2);
+            p.setHobbies(hobbies);
+            persons.add(p);
             return persons;
         } else {
             // here should be something real :-)
             List<PersonOutDTO> persons = new ArrayList<>();
-            persons.add(new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner"));
+            PersonOutDTO p = new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
+            HobbyOutDTO h1 = new HobbyOutDTO(new Hobby("fodbold", "hver tirsdag"));
+            HobbyOutDTO h2 = new HobbyOutDTO(new Hobby("fodbold", "hver onsdag"));
+            ArrayList<HobbyOutDTO> hobbies = new ArrayList<>();
+            hobbies.add(h1);
+            hobbies.add(h2);
+            p.setHobbies(hobbies);
+            persons.add(p);
             return persons;
         }
     }
 
 //    Get the count of people with a given hobby
-    public void getCountPersonByHobby() {
+    @GET
+    @Path("count/{hobby}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Get the count of people with a given hobby",
+            tags = {"hobby"},
+            responses = {
+                @ApiResponse(
+                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = HobbyOutDTO.class))),
+                @ApiResponse(responseCode = "200", description = "The count of a given hobby"),
+                @ApiResponse(responseCode = "404", description = "Hobby not found")})
+    public int getCountPersonByHobby(@PathParam("hobby") String hobby) {
+        List<HobbyOutDTO> hobbies = new ArrayList();
+        hobbies.add(new HobbyOutDTO(new Hobby("Tennis", "Green ball")));
+        return hobbies.size();
     }
 
 //    Get a list of all zip codes in Denmark
@@ -162,14 +213,14 @@ public class PersonResource {
             tags = {"zipcode"},
             responses = {
                 @ApiResponse(
-                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = ZipCodeOutDTO.class))),
+                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = CityInfoOutDTO.class))),
                 @ApiResponse(responseCode = "200", description = "The Requested Persons"),
                 @ApiResponse(responseCode = "404", description = "Person not found")})
-    public List<ZipCodeOutDTO> getAllZipCodes() {
+    public List<CityInfoOutDTO> getAllZipCodes() {
         //dummy data
-        List<ZipCodeOutDTO> zipcodes = new ArrayList<>();
-        zipcodes.add(new ZipCodeOutDTO(1234));
-        zipcodes.add(new ZipCodeOutDTO(5678));
+        List<CityInfoOutDTO> zipcodes = new ArrayList<>();
+        zipcodes.add(new CityInfoOutDTO(new CityInfo(1234, "ABC")));
+        zipcodes.add(new CityInfoOutDTO(new CityInfo(5678, "DEF")));
         return zipcodes;
     }
 
@@ -188,13 +239,148 @@ public class PersonResource {
         if (hobby != null && hobby.equals("golf")) {
             // for test
             List<PersonOutDTO> persons = new ArrayList<>();
-            persons.add(new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner"));
+            persons.add(new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH")))));
             return persons;
         } else {
             // here should be something real :-)
             List<PersonOutDTO> persons = new ArrayList<>();
-            persons.add(new PersonOutDTO("info@simonskodebiks.dk", "Gũnther", "Steiner"));
+            persons.add(new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH")))));
             return persons;
         }
     }
+
+    //@PUT
+    public void editPersonAddress() {
+    }
+
+    @PUT
+    @Path("edit")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Edit existing person", tags = {"person"},
+            responses = {
+                @ApiResponse(responseCode = "200", description = "The edited person"),
+                @ApiResponse(responseCode = "400", description = "Not all arguments provided with the body")
+            })
+    public PersonDTO editPersonCoreInformation(PersonDTO person) throws ExceptionDTO {
+        if (person.getFirstName() == null || person.getLastName() == null || person.getEmail() == null) {
+            throw new ExceptionDTO(400, "Not all required arguments included");
+        }
+
+        return FACADE.editPCI(person);
+//        //dummy data
+//        PersonOutDTO p = new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
+//        HobbyOutDTO h1 = new HobbyOutDTO(new Hobby("fodbold", "hver tirsdag"));
+//        HobbyOutDTO h2 = new HobbyOutDTO(new Hobby("fodbold", "hver onsdag"));
+//        ArrayList<HobbyOutDTO> hobbies = new ArrayList<>();
+//        hobbies.add(h1);
+//        hobbies.add(h2);
+//        p.setHobbies(hobbies);
+//        return p;
+    }
+
+    //@POST
+    @POST
+    @Path("hobby/add")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Add a new hobby to a person", tags = {"hobby"},
+            responses = {
+                @ApiResponse(responseCode = "200", description = "Person with added hobby"),
+                @ApiResponse(responseCode = "400", description = "Not all arguments provided with the body")
+            })
+    public PersonOutDTO addHobby(PersonOutDTO person) throws ExceptionDTO {
+        if (person.getFirstName() == null || person.getLastName() == null || person.getEmail() == null || person.getAddress() == null) {
+            throw new ExceptionDTO(400, "Not all required arguments included");
+        }
+        //dummy data
+        PersonOutDTO p = new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
+        HobbyOutDTO hobby = new HobbyOutDTO(new Hobby("golf", "totalt handicapped"));
+        ArrayList<HobbyOutDTO> hobbies = new ArrayList<>();
+        hobbies.add(hobby);
+        person.setHobbies(hobbies);
+        return person;
+    }
+
+    //@DELETE
+    public void deleteHobby() {
+    }
+
+    //@POST
+    @POST
+    @Path("phone/add")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Add a new phone to a person", tags = {"phone"},
+            responses = {
+                @ApiResponse(responseCode = "200", description = "Person with added phone"),
+                @ApiResponse(responseCode = "400", description = "Not all arguments provided with the body")
+            })
+    public PersonOutDTO addPhone(PersonOutDTO person) throws ExceptionDTO {
+        if (person.getFirstName() == null || person.getLastName() == null || person.getEmail() == null || person.getAddress() == null) {
+            throw new ExceptionDTO(400, "Not all required arguments included");
+        }
+        //dummy data
+        PersonOutDTO p = new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
+        PhoneOutDTO newPhone = new PhoneOutDTO();
+        newPhone.setDescription("work phone");
+        newPhone.setPhoneNumber("223344");
+        person.getPhones().add(newPhone);
+        return person;
+    }
+
+    //@DELETE
+    public void deletePhone() {
+    }
+
+    @POST
+    @Path("create")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Create new Person", tags = {"person"},
+            responses = {
+                @ApiResponse(responseCode = "200", description = "The Newly created Person"),
+                @ApiResponse(responseCode = "400", description = "Not all arguments provided with the body")
+            })
+    public PersonDTO createPerson(PersonDTO person) throws ExceptionDTO {
+        if (person.getFirstName() == null || person.getLastName() == null || person.getEmail() == null || person.getStreet() == null || person.getZipcode() == 0) {
+            throw new WebApplicationException("Not all required arguments included", 400);
+        }
+        return FACADE.createPerson(person.getEmail(), person.getFirstName(), person.getLastName(), person.getStreet(), person.getZipcode());
+    }
+
+    //@DELETE
+    public void deletePerson() {
+    }
+
+    //    fill db with data
+    @GET
+    @Path("fill")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Fill data into database",
+            tags = {"default"},
+            responses = {
+                //                @ApiResponse(
+                //                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonOutDTO.class))),
+                @ApiResponse(responseCode = "200", description = "Database is filled")
+            })
+    public String getFilling() {
+        return FACADE.fillUp();
+    }
+
+    //    empty db
+    @GET
+    @Path("empty")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Empty database",
+            tags = {"default"},
+            responses = {
+                //                @ApiResponse(
+                //                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonOutDTO.class))),
+                @ApiResponse(responseCode = "200", description = "Data has been deleted")
+            })
+    public String getDeleting() {
+        return FACADE.emptyDB();
+    }
+
 }

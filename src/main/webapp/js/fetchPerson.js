@@ -9,7 +9,15 @@ function getPersonByPhone(ev) {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                $("#content").html("personID: " + data.personID + "<br>Email: "+ data.email + "<br>Name: " + data.firstName +" " +data.lastName);
+                $("#content").html(
+                        "personID: " + data.personID
+                        + "<br>Email: " + data.email
+                        + "<br>Name: " + data.firstName + " " + data.lastName
+                        + "<br>Hobbies: " + data.hobbies);
+                data.hobbies.forEach($("#content").append(item.name));
+//                data.hobbies.map($("#content").append(this));
+
+
             });
 }
 
