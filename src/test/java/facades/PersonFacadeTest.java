@@ -1,5 +1,6 @@
 package facades;
 
+import dto.PersonDTO;
 import dto.PersonHobbyOutDTO;
 import entities.Address;
 import entities.CityInfo;
@@ -134,7 +135,7 @@ public class PersonFacadeTest {
     @Test
     public void testGetPerson() {
         System.out.println("getPerson");
-        Person instance = facade.getPerson(p1.getPersonID());
+        PersonDTO instance = facade.getPerson(p1.getPersonID());
         assertEquals(instance, p1);
     }
 
