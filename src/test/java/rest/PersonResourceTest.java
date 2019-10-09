@@ -318,26 +318,26 @@ public class PersonResourceTest {
         "  \"zipcode\": 1234\n" +
         "}";
         
-//        given()
-//                .contentType("application/json")
-//                .body(payload)
-//                .post("/person/create").then().log().body()
-//                .assertThat()
-//                .statusCode(HttpStatus.OK_200.getStatusCode())
-//                .body("email", hasItems("info@simonskodebiks.dk"))
-//                .body("firstName", hasItems("Gũnther"))
-//                .body("lastName", hasItems("Steiner"));
+        given()
+                .contentType("application/json")
+                .body(payload)
+                .post("/person/create").then().log().body()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .body("email", hasItems("info@simonskodebiks.dk"))
+                .body("firstName", hasItems("Gũnther"))
+                .body("lastName", hasItems("Steiner"));
 
-    given().urlEncodingEnabled(true)
-            .param("persondID", 0)
-            .param("email", "info@simonskodebiks.dk")
-            .param("firstName", "Gũnther")
-            .param("lastName", "Steiner")
-            .param("street", "Jacobsvej")
-            .param("zipcode", 1234)
-            .contentType("application/json")
-            .post("person/create")
-            .then().statusCode(200);
+//    given().urlEncodingEnabled(true)
+//            .param("persondID", 0)
+//            .param("email", "info@simonskodebiks.dk")
+//            .param("firstName", "Gũnther")
+//            .param("lastName", "Steiner")
+//            .param("street", "Jacobsvej")
+//            .param("zipcode", 1234)
+//            .contentType("application/json")
+//            .post("person/create")
+//            .then().statusCode(200);
     
     }
 
