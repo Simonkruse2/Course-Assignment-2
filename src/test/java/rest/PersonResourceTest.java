@@ -267,7 +267,7 @@ public class PersonResourceTest {
      * Test of createPerson method, of class PersonResource.
      */
     @Test
-    public void testCreatePerson(){
+    public void testCreatePerson() {
 
 //        List<Map<String, Object>> hobbies = new ArrayList<>();
 //        Map<String, Object> hobby1 = new HashMap<>();
@@ -310,18 +310,17 @@ public class PersonResourceTest {
         personData.put("street", "Jacobsvej");
         personData.put("zipcode", 1234);
 
-        String payload = "{\n" +
-        "  \"personID\": 0,\n" +
-        "  \"email\": \"info@simonskodebiks.dk\",\n" +
-        "  \"firstName\": \"Gũnther\"\n" +
-        "  \"lastName\": \"Steiner\"\n" +
-        "  \"street\": \"Jacobsvej\"\n" +
-        "  \"zipcode\": 1234\n" +
-        "}";
+        String payload = "{\n"
+                + "  \"personID\": 0,\n"
+                + "  \"email\": \"info@simonskodebiks.dk\",\n"
+                + "  \"firstName\": \"Gũnther\"\n"
+                + "  \"lastName\": \"Steiner\"\n"
+                + "  \"street\": \"Jacobsvej\"\n"
+                + "  \"zipcode\": 1234\n"
+                + "}";
 
         //Arrange
         PersonDTO expResult = new PersonDTO("info@simonskodebiks.dk", "Gũnther", "Steiner", "Jacobsvej", 1234);
-
 
         //Act
         PersonDTO result
@@ -347,7 +346,6 @@ public class PersonResourceTest {
 //                .body("email", hasItems("info@simonskodebiks.dk"))
 //                .body("firstName", hasItems("Gũnther"))
 //                .body("lastName", hasItems("Steiner"));
-
 //    given().urlEncodingEnabled(true)
 //            .param("persondID", 0)
 //            .param("email", "info@simonskodebiks.dk")
@@ -360,24 +358,25 @@ public class PersonResourceTest {
 //            .then().statusCode(200);
     }
 
-    //@Test
+    @Test
     public void testEditPersonCoreInformation() {
-        //Arrange
-        /*TRICKY: Must be sent as a person but returns as a PersonDTO */
-        Person expResult = new Person("John", "Test", "email@email.dk");
-        //Act
+
+        PersonDTO expResult = new PersonDTO("info@simonskodebiks.dk", "Gũnther", "Steiner", "Jacobsvej", 1234);
+        expResult.setPersonID(p1.getPersonID());
+
         PersonDTO result
                 = with()
                         .body(expResult) //include object in body
                         .contentType("application/json")
                         .when().request("PUT", "/person/edit").then() //put REQUEST
-                        .assertThat()//.log().body()
+                        .assertThat()
                         .statusCode(HttpStatus.OK_200.getStatusCode())
                         .extract()
                         .as(PersonDTO.class); //extract result JSON as object
 
-        //Assert
-        MatcherAssert.assertThat((result), equalTo(new PersonDTO(expResult))); //convert to personDTO
+        MatcherAssert.assertThat((result.getFirstName()), equalTo(expResult.getFirstName()));
+        MatcherAssert.assertThat((result.getLastName()), equalTo(expResult.getLastName()));
+        MatcherAssert.assertThat((result.getEmail()), equalTo(expResult.getEmail()));
     }
 
 }
