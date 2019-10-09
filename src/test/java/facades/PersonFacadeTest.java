@@ -28,7 +28,6 @@ public class PersonFacadeTest {
     private static EntityManagerFactory emf;
     private static PersonFacade facade;
     private EntityManager em;
-    
 
     private Person p1, p2;
     private Hobby h1, h2, h3;
@@ -98,7 +97,7 @@ public class PersonFacadeTest {
         try {
             p1 = new Person("email", "Gurli", "Mogensen", a1);
             p2 = new Person("mail", "Gunnar", "Hjorth", a2);
-            
+
             em.getTransaction().begin();
             p1.addHobby(h1);
             p1.addHobby(h2);
@@ -127,6 +126,14 @@ public class PersonFacadeTest {
 
     @AfterEach
     public void tearDown() {
+    }
+     /**
+     * Test of createPerson method, of class PersonFacade.
+     */
+    @Test
+    public void testCreatePerson() {
+        PersonDTO pDTO = facade.createPerson("email", "firstName", "lastName", "street", 0);
+        assertNotNull(pDTO.getPersonID());
     }
 
     /**
@@ -210,4 +217,6 @@ public class PersonFacadeTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+
+   
 }
