@@ -145,6 +145,10 @@ public class PersonFacade {
         try {
             Person personToEdit = em.find(Person.class, person.getPersonID());
 
+            personToEdit.setFirstName(person.getFirstName());
+            personToEdit.setLastName(person.getLastName());
+            personToEdit.setEmail(person.getEmail());
+            
             em.getTransaction().begin();
             em.merge(personToEdit);
             em.getTransaction().commit();
