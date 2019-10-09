@@ -1,5 +1,6 @@
 package rest;
 
+import dto.PersonDTO;
 import dto.PersonOutDTO;
 import entities.Address;
 import entities.CityInfo;
@@ -10,6 +11,7 @@ import facades.PersonFacade;
 import utils.EMF_Creator;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.with;
 import io.restassured.parsing.Parser;
 import java.net.URI;
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ import static org.glassfish.grizzly.http.util.Header.ContentType;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.hamcrest.MatcherAssert;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
 import org.junit.After;
@@ -263,7 +266,7 @@ public class PersonResourceTest {
     /**
      * Test of createPerson method, of class PersonResource.
      */
-    //@Test
+    @Test
     public void testCreatePerson(){
         
 //        List<Map<String, Object>> hobbies = new ArrayList<>();
@@ -318,15 +321,34 @@ public class PersonResourceTest {
         "  \"zipcode\": 1234\n" +
         "}";
         
-        given()
-                .contentType("application/json")
-                .body(payload)
-                .post("/person/create").then().log().body()
-                .assertThat()
-                .statusCode(HttpStatus.OK_200.getStatusCode())
-                .body("email", hasItems("info@simonskodebiks.dk"))
-                .body("firstName", hasItems("Gũnther"))
-                .body("lastName", hasItems("Steiner"));
+        //Arrange
+        PersonDTO expResult = new PersonDTO("info@simonskodebiks.dk", "Gũnther", "Steiner", "Jacobsvej", 1234);
+        
+
+        //Act
+        PersonDTO result
+                = with()
+                        .body(expResult) //include object in body
+                        .contentType("application/json")
+                        .when().request("POST", "/person/create").then() //post REQUEST
+                        .assertThat()//.log().body()
+                        .statusCode(HttpStatus.OK_200.getStatusCode())
+                        .extract()
+                        .as(PersonDTO.class); //extract result JSON as object
+
+        //Assert
+        MatcherAssert.assertThat((result.getFirstName()), equalTo(expResult.getFirstName()));
+        MatcherAssert.assertThat((result.getStreet()), equalTo(expResult.getStreet()));
+        
+//        given()
+//                .contentType("application/json")
+//                .body(payload)
+//                .post("/person/create").then().log().body()
+//                .assertThat()
+//                .statusCode(HttpStatus.OK_200.getStatusCode())
+//                .body("email", hasItems("info@simonskodebiks.dk"))
+//                .body("firstName", hasItems("Gũnther"))
+//                .body("lastName", hasItems("Steiner"));
 
 //    given().urlEncodingEnabled(true)
 //            .param("persondID", 0)
