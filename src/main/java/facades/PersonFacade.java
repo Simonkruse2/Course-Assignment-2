@@ -230,7 +230,6 @@ public class PersonFacade {
     }
 
     public PersonDTO createPerson(String email, String firstName, String lastName, String street, int zipcode) {
-        emf = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.DEV, EMF_Creator.Strategy.CREATE);
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -241,12 +240,14 @@ public class PersonFacade {
             Person p = new Person(email, firstName, lastName, a);
             em.persist(p);
             em.getTransaction().commit();
+            PersonDTO pDTO = new PersonDTO(email, firstName, lastName, street, zipcode);
+            pDTO.setPersonID(p.getPersonID());
+            return pDTO;
         } finally {
             em.close();
         }
-        return new PersonDTO(email, firstName, lastName, street, zipcode);
     }
-    
+
 //    public static void main(String[] args) {
 //        EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.DEV, EMF_Creator.Strategy.CREATE);
 //        PersonFacade pf = PersonFacade.getFacadeExample(emf);
