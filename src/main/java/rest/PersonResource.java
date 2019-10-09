@@ -95,14 +95,13 @@ public class PersonResource {
                 @ApiResponse(responseCode = "200", description = "The Requested Person"),
                 @ApiResponse(responseCode = "404", description = "Person not found")})
 
-    public PersonDTO getPersonInfo(@PathParam("id") int personID) throws ExceptionDTO {
+    public PersonDTO getPersonInfo(@PathParam("id") int personID) {
         if (FACADE.getPerson(personID) == null) {
             throw new WebApplicationException("Person not found", 404);
         } else {
             PersonDTO pDTO = FACADE.getPerson(personID);
             return pDTO;
         }
-
     }
 
 //    Get information about a person (address, hobbies etc) given a phone number
