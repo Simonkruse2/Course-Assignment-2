@@ -342,7 +342,7 @@ public class PersonResource {
                 @ApiResponse(responseCode = "400", description = "Not all arguments provided with the body")
             })
     public PersonDTO createPerson(PersonDTO person) throws ExceptionDTO {
-        if (person.getFirstName() == null || person.getLastName() == null || person.getEmail() == null || person.getStreet() == null) {
+        if (person.getFirstName() == null || person.getLastName() == null || person.getEmail() == null || person.getStreet() == null || person.getZipcode() == 0) {
             throw new ExceptionDTO(400, "Not all required arguments included");
         }
         return FACADE.createPerson(person.getEmail(), person.getFirstName(), person.getLastName(), person.getStreet(), person.getZipcode());
