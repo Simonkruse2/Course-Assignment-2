@@ -20,6 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.core.UriBuilder;
 import org.glassfish.grizzly.http.server.HttpServer;
+import static org.glassfish.grizzly.http.util.Header.ContentType;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -262,9 +263,9 @@ public class PersonResourceTest {
     /**
      * Test of createPerson method, of class PersonResource.
      */
-//    @Test
-//    public void testCreatePerson(){
-//        
+    //@Test
+    public void testCreatePerson(){
+        
 //        List<Map<String, Object>> hobbies = new ArrayList<>();
 //        Map<String, Object> hobby1 = new HashMap<>();
 //        hobby1.put("name", "football");
@@ -295,27 +296,49 @@ public class PersonResourceTest {
 //        address.put("street", "Jacobsvej");
 //        address.put("cityInfo", cityInfo);
 //                
-//        Map<String, Object> personData = new HashMap<>();
-//        personData.put("personID", 0);
-//        personData.put("email", "info@simonskodebiks.dk");
-//        personData.put("fistName", "Gũnther");
-//        personData.put("lastName", "Steiner");
 //        personData.put("hobbies", hobbies);
 //        personData.put("phones", phones);
 //        personData.put("address", address);
-//                              
+
+
+        Map<String, Object> personData = new HashMap<>();
+        personData.put("personID", 0);
+        personData.put("email", "info@simonskodebiks.dk");
+        personData.put("fistName", "Gũnther");
+        personData.put("lastName", "Steiner");
+        personData.put("street", "Jacobsvej");
+        personData.put("zipcode", 1234);
+        
+        String payload = "{\n" +
+        "  \"personID\": 0,\n" +
+        "  \"email\": \"info@simonskodebiks.dk\",\n" +
+        "  \"firstName\": \"Gũnther\"\n" +
+        "  \"lastName\": \"Steiner\"\n" +
+        "  \"street\": \"Jacobsvej\"\n" +
+        "  \"zipcode\": 1234\n" +
+        "}";
+        
 //        given()
 //                .contentType("application/json")
-//                .accept("application/json")
-//                .body(personData)
-//                .when()
+//                .body(payload)
 //                .post("/person/create").then().log().body()
 //                .assertThat()
 //                .statusCode(HttpStatus.OK_200.getStatusCode())
 //                .body("email", hasItems("info@simonskodebiks.dk"))
 //                .body("firstName", hasItems("Gũnther"))
-//                .body("lastName", hasItems("Steiner"))
-//                .body("hobbies.name", hasItems("football","programming"));
-//    }
+//                .body("lastName", hasItems("Steiner"));
+
+    given().urlEncodingEnabled(true)
+            .param("persondID", 0)
+            .param("email", "info@simonskodebiks.dk")
+            .param("firstName", "Gũnther")
+            .param("lastName", "Steiner")
+            .param("street", "Jacobsvej")
+            .param("zipcode", 1234)
+            .contentType("application/json")
+            .post("person/create")
+            .then().statusCode(200);
+    
+    }
 
 }
