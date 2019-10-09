@@ -344,7 +344,7 @@ public class PersonResource {
             })
     public PersonDTO createPerson(PersonDTO person) throws ExceptionDTO {
         if (person.getFirstName() == null || person.getLastName() == null || person.getEmail() == null || person.getStreet() == null || person.getZipcode() == 0) {
-            throw new ExceptionDTO(400, "Not all required arguments included");
+            throw new WebApplicationException("Not all required arguments included", 400);
         }
         return FACADE.createPerson(person.getEmail(), person.getFirstName(), person.getLastName(), person.getStreet(), person.getZipcode());
     }
