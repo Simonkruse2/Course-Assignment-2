@@ -36,6 +36,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 import org.glassfish.grizzly.http.server.HttpServer;
@@ -96,7 +97,7 @@ public class PersonResource {
 
     public PersonDTO getPersonInfo(@PathParam("id") int personID) throws ExceptionDTO {
         if (FACADE.getPerson(personID) == null) {
-            throw new ExceptionDTO(404, "Person not found");
+            throw new WebApplicationException("Person not found", 404);
         } else {
             PersonDTO pDTO = FACADE.getPerson(personID);
             return pDTO;

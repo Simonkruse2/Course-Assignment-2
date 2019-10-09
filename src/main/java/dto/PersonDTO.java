@@ -79,4 +79,10 @@ public class PersonDTO {
 
     public PersonDTO() {
     }
+
+    @Override
+    public String toString() {
+        return "PersonDTO{" + "personID=" + personID + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", street=" + street + ", zipcode=" + zipcode + '}';
+    }
+    
 }
