@@ -261,9 +261,9 @@ public class PersonResource {
                 @ApiResponse(responseCode = "200", description = "The edited person"),
                 @ApiResponse(responseCode = "400", description = "Not all arguments provided with the body")
             })
-    public PersonDTO editPersonCoreInformation(PersonDTO person) throws ExceptionDTO {
+    public PersonDTO editPersonCoreInformation(PersonDTO person) {
         if (person.getFirstName() == null || person.getLastName() == null || person.getEmail() == null) {
-            throw new ExceptionDTO(400, "Not all required arguments included");
+            throw new WebApplicationException("Not all required arguments included", 400);
         }
 
         return FACADE.editPCI(person);
@@ -288,9 +288,9 @@ public class PersonResource {
                 @ApiResponse(responseCode = "200", description = "Person with added hobby"),
                 @ApiResponse(responseCode = "400", description = "Not all arguments provided with the body")
             })
-    public PersonOutDTO addHobby(PersonOutDTO person) throws ExceptionDTO {
+    public PersonOutDTO addHobby(PersonOutDTO person){
         if (person.getFirstName() == null || person.getLastName() == null || person.getEmail() == null || person.getAddress() == null) {
-            throw new ExceptionDTO(400, "Not all required arguments included");
+            throw new WebApplicationException("Not all required arguments included", 400);
         }
         //dummy data
         PersonOutDTO p = new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
@@ -315,9 +315,9 @@ public class PersonResource {
                 @ApiResponse(responseCode = "200", description = "Person with added phone"),
                 @ApiResponse(responseCode = "400", description = "Not all arguments provided with the body")
             })
-    public PersonOutDTO addPhone(PersonOutDTO person) throws ExceptionDTO {
+    public PersonOutDTO addPhone(PersonOutDTO person) {
         if (person.getFirstName() == null || person.getLastName() == null || person.getEmail() == null || person.getAddress() == null) {
-            throw new ExceptionDTO(400, "Not all required arguments included");
+            throw new WebApplicationException("Not all required arguments included", 400);
         }
         //dummy data
         PersonOutDTO p = new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
@@ -341,7 +341,7 @@ public class PersonResource {
                 @ApiResponse(responseCode = "200", description = "The Newly created Person"),
                 @ApiResponse(responseCode = "400", description = "Not all arguments provided with the body")
             })
-    public PersonDTO createPerson(PersonDTO person) throws ExceptionDTO {
+    public PersonDTO createPerson(PersonDTO person){
         if (person.getFirstName() == null || person.getLastName() == null || person.getEmail() == null || person.getStreet() == null || person.getZipcode() == 0) {
             throw new WebApplicationException("Not all required arguments included", 400);
         }
