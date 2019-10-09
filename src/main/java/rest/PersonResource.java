@@ -95,14 +95,14 @@ public class PersonResource {
                 @ApiResponse(responseCode = "200", description = "The Requested Person"),
                 @ApiResponse(responseCode = "404", description = "Person not found")})
 
-    public PersonOutDTO getPersonInfo(@PathParam("id") int personID) {
-        if (personID > 0 && personID == 99999) {
-            // for test
-            return new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
+    public PersonDTO getPersonInfo(@PathParam("id") int personID) throws ExceptionDTO {
+        if (FACADE.getPerson(personID) == null) {
+            throw new WebApplicationException("Person not found", 404);
         } else {
-            // here should be something real :-)
-            return new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
+            PersonDTO pDTO = FACADE.getPerson(personID);
+            return pDTO;
         }
+
     }
 
 //    Get information about a person (address, hobbies etc) given a phone number
@@ -266,7 +266,7 @@ public class PersonResource {
         if (person.getFirstName() == null || person.getLastName() == null || person.getEmail() == null) {
             throw new ExceptionDTO(400, "Not all required arguments included");
         }
-        
+
         return FACADE.editPCI(person);
 //        //dummy data
 //        PersonOutDTO p = new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
@@ -307,7 +307,7 @@ public class PersonResource {
     }
 
     //@POST
- @POST
+    @POST
     @Path("phone/add")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)

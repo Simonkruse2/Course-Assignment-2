@@ -44,11 +44,13 @@ public class PersonFacade {
         return emf.createEntityManager();
     }
 
-    public Person getPerson(int personID) {
+    public PersonDTO getPerson(int personID) {
         EntityManager em = emf.createEntityManager();
         try {
             Person p = em.find(Person.class, personID);
-            return p;
+            PersonDTO pDTO = new PersonDTO(p.getEmail(), p.getFirstName(), p.getLastName(), p.getAddress().getStreet(), p.getAddress().getCityInfo().getZipCode());
+            pDTO.setPersonID(p.getPersonID());
+            return pDTO;
         } finally {
             em.close();
         }
