@@ -1,5 +1,6 @@
 package rest;
 
+import dto.PersonDTO;
 import dto.PersonOutDTO;
 import entities.Address;
 import entities.CityInfo;
@@ -10,6 +11,7 @@ import facades.PersonFacade;
 import utils.EMF_Creator;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.with;
 import io.restassured.parsing.Parser;
 import java.net.URI;
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ import static org.glassfish.grizzly.http.util.Header.ContentType;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.hamcrest.MatcherAssert;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
 import org.junit.After;
@@ -44,7 +47,7 @@ public class PersonResourceTest {
     private static final String SERVER_URL = "http://localhost/api";
     private static PersonFacade facade;
     private EntityManager em;
-    
+
     private Person p1, p2;
     private Hobby h1, h2, h3;
     private Address a1, a2;
@@ -201,7 +204,7 @@ public class PersonResourceTest {
                 .body("email", equalTo("info@simonskodebiks.dk"))
                 .body("firstName", equalTo("Gũnther"))
                 .body("lastName", equalTo("Steiner"))
-                .body("hobbies.name", hasItems("Cykling","Film"));
+                .body("hobbies.name", hasItems("Cykling", "Film"));
     }
 
     /**
@@ -259,13 +262,13 @@ public class PersonResourceTest {
                 .body("city", hasItems("ABC", "DEF"))
                 .body("zipCode", hasItems(1234, 5678));
     }
-    
+
     /**
      * Test of createPerson method, of class PersonResource.
      */
     //@Test
-    public void testCreatePerson(){
-        
+    public void testCreatePerson() {
+
 //        List<Map<String, Object>> hobbies = new ArrayList<>();
 //        Map<String, Object> hobby1 = new HashMap<>();
 //        hobby1.put("name", "football");
@@ -299,8 +302,6 @@ public class PersonResourceTest {
 //        personData.put("hobbies", hobbies);
 //        personData.put("phones", phones);
 //        personData.put("address", address);
-
-
         Map<String, Object> personData = new HashMap<>();
         personData.put("personID", 0);
         personData.put("email", "info@simonskodebiks.dk");
@@ -308,16 +309,16 @@ public class PersonResourceTest {
         personData.put("lastName", "Steiner");
         personData.put("street", "Jacobsvej");
         personData.put("zipcode", 1234);
-        
-        String payload = "{\n" +
-        "  \"personID\": 0,\n" +
-        "  \"email\": \"info@simonskodebiks.dk\",\n" +
-        "  \"firstName\": \"Gũnther\"\n" +
-        "  \"lastName\": \"Steiner\"\n" +
-        "  \"street\": \"Jacobsvej\"\n" +
-        "  \"zipcode\": 1234\n" +
-        "}";
-        
+
+        String payload = "{\n"
+                + "  \"personID\": 0,\n"
+                + "  \"email\": \"info@simonskodebiks.dk\",\n"
+                + "  \"firstName\": \"Gũnther\"\n"
+                + "  \"lastName\": \"Steiner\"\n"
+                + "  \"street\": \"Jacobsvej\"\n"
+                + "  \"zipcode\": 1234\n"
+                + "}";
+
         given()
                 .contentType("application/json")
                 .body(payload)
@@ -338,7 +339,26 @@ public class PersonResourceTest {
 //            .contentType("application/json")
 //            .post("person/create")
 //            .then().statusCode(200);
-    
+    }
+
+    //@Test
+    public void testEditPersonCoreInformation() {
+        //Arrange
+        /*TRICKY: Must be sent as a person but returns as a PersonDTO */
+        Person expResult = new Person("John", "Test", "email@email.dk");
+        //Act
+        PersonDTO result
+                = with()
+                        .body(expResult) //include object in body
+                        .contentType("application/json")
+                        .when().request("PUT", "/person/edit").then() //put REQUEST
+                        .assertThat()//.log().body()
+                        .statusCode(HttpStatus.OK_200.getStatusCode())
+                        .extract()
+                        .as(PersonDTO.class); //extract result JSON as object
+
+        //Assert
+        MatcherAssert.assertThat((result), equalTo(new PersonDTO(expResult))); //convert to personDTO
     }
 
 }
