@@ -134,7 +134,6 @@ public class PersonFacade {
     }
 
     public String emptyDB() {
-        emf = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.DEV, EMF_Creator.Strategy.CREATE);
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -171,7 +170,6 @@ public class PersonFacade {
     }
 
     public String fillUp() {
-        emf = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.DEV, EMF_Creator.Strategy.CREATE);
         EntityManager em = emf.createEntityManager();
         Person p1, p2;
         Hobby h1, h2, h3;
