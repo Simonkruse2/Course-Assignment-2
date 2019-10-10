@@ -252,7 +252,7 @@ public class PersonResourceTest {
     /**
      * Test of getAllZipCodes method, of class PersonResource.
      */
-    @Test
+    //@Test
     public void testGetAllZipCodes() {
         given()
                 .contentType("application/json")
@@ -268,57 +268,6 @@ public class PersonResourceTest {
      */
     @Test
     public void testCreatePerson() {
-
-//        List<Map<String, Object>> hobbies = new ArrayList<>();
-//        Map<String, Object> hobby1 = new HashMap<>();
-//        hobby1.put("name", "football");
-//        hobby1.put("description", "Every tuesday");
-//        hobbies.add(hobby1);
-//        Map<String, Object> hobby2 = new HashMap<>();
-//        hobby2.put("name", "programming");
-//        hobby2.put("description", "all the time");
-//        hobbies.add(hobby2);
-//
-//        List<Map<String, Object>> phones = new ArrayList<>();
-//        Map<String, Object> phone1 = new HashMap<>();
-//        phone1.put("phone", "12345");
-//        phone1.put("description", "mobile");
-//        phones.add(phone1);
-//        Map<String, Object> phone2 = new HashMap<>();
-//        phone2.put("phone", "4444");
-//        phone2.put("description", "work");
-//        phones.add(phone2);
-//
-//        Map<String, Object> cityInfo = new HashMap<>();
-//        cityInfo.put("zipcode", 1234);
-//        cityInfo.put("city", "KBH");
-//
-//        Map<String, Object> address = new HashMap<>();
-//        address.put("street", "Jacobsvej");
-//        address.put("additionalInfo", "Første sal");
-//        address.put("street", "Jacobsvej");
-//        address.put("cityInfo", cityInfo);
-//
-//        personData.put("hobbies", hobbies);
-//        personData.put("phones", phones);
-//        personData.put("address", address);
-        Map<String, Object> personData = new HashMap<>();
-        personData.put("personID", 0);
-        personData.put("email", "info@simonskodebiks.dk");
-        personData.put("fistName", "Gũnther");
-        personData.put("lastName", "Steiner");
-        personData.put("street", "Jacobsvej");
-        personData.put("zipcode", 1234);
-
-        String payload = "{\n"
-                + "  \"personID\": 0,\n"
-                + "  \"email\": \"info@simonskodebiks.dk\",\n"
-                + "  \"firstName\": \"Gũnther\"\n"
-                + "  \"lastName\": \"Steiner\"\n"
-                + "  \"street\": \"Jacobsvej\"\n"
-                + "  \"zipcode\": 1234\n"
-                + "}";
-
         //Arrange
         PersonDTO expResult = new PersonDTO("info@simonskodebiks.dk", "Gũnther", "Steiner", "Jacobsvej", 1234);
 
@@ -337,25 +286,6 @@ public class PersonResourceTest {
         MatcherAssert.assertThat((result.getFirstName()), equalTo(expResult.getFirstName()));
         MatcherAssert.assertThat((result.getStreet()), equalTo(expResult.getStreet()));
 
-//        given()
-//                .contentType("application/json")
-//                .body(payload)
-//                .post("/person/create").then().log().body()
-//                .assertThat()
-//                .statusCode(HttpStatus.OK_200.getStatusCode())
-//                .body("email", hasItems("info@simonskodebiks.dk"))
-//                .body("firstName", hasItems("Gũnther"))
-//                .body("lastName", hasItems("Steiner"));
-//    given().urlEncodingEnabled(true)
-//            .param("persondID", 0)
-//            .param("email", "info@simonskodebiks.dk")
-//            .param("firstName", "Gũnther")
-//            .param("lastName", "Steiner")
-//            .param("street", "Jacobsvej")
-//            .param("zipcode", 1234)
-//            .contentType("application/json")
-//            .post("person/create")
-//            .then().statusCode(200);
     }
 
     @Test
@@ -377,6 +307,17 @@ public class PersonResourceTest {
         MatcherAssert.assertThat((result.getFirstName()), equalTo(expResult.getFirstName()));
         MatcherAssert.assertThat((result.getLastName()), equalTo(expResult.getLastName()));
         MatcherAssert.assertThat((result.getEmail()), equalTo(expResult.getEmail()));
+    }
+    
+    @Test
+    public void testGetAllPersons() {
+        given()
+                .contentType("application/json")
+                .get("/person/all").then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .body("firstName", hasItems("Gurli", "Gunnar"))
+                .body("zipcode", hasItems(2100, 2300));
     }
 
 }

@@ -7,6 +7,7 @@ import entities.CityInfo;
 import entities.Hobby;
 import entities.Person;
 import entities.Phone;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -261,10 +262,27 @@ public class PersonFacade {
             em.close();
         }
     }
+    
+    public List<PersonDTO> getAllPersons(){
+        EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<Person> query
+                    = em.createQuery("Select p from Person p", Person.class);
+            List<Person> persons = query.getResultList();
+            List<PersonDTO> pDTOs = new ArrayList<>();
+            for (Person person : persons) {
+                pDTOs.add(new PersonDTO(person.getEmail(), person.getFirstName(), person.getLastName(), person.getAddress().getStreet(), person.getAddress().getCityInfo().getZipCode()));
+            }
+            return pDTOs;
+        } finally {
+            em.close();
+        }
+    }
 
 //    public static void main(String[] args) {
 //        EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.DEV, EMF_Creator.Strategy.CREATE);
 //        PersonFacade pf = PersonFacade.getFacadeExample(emf);
 //        pf.createPerson("email", "firstName", "lastName", "street", 0);
+//        System.out.println(pf.getAllPersons());
 //    }
 }

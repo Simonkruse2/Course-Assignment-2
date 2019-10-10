@@ -17,6 +17,8 @@ import org.junit.jupiter.api.BeforeAll;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import utils.EMF_Creator;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  *
@@ -235,4 +237,11 @@ public class PersonFacadeTest {
         assertNotEquals(p1DTO.getStreet(), pDTO.getStreet());
         assertNotEquals(p1DTO.getZipcode(), pDTO.getZipcode());
     }
+    
+   @Test
+   public void testGetAllPersons(){
+       List<PersonDTO> allpersons = facade.getAllPersons();
+       assertEquals(allpersons.size(), 2);
+       assertThat(allpersons.get(0).getFirstName(), either(containsString("Gurli")).or(containsString("Gunnar")));
+   }
 }
