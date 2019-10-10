@@ -132,9 +132,9 @@ public class PersonResource {
 
 //    Get all persons with a given hobby
     @GET
-    @Path("all")
+    @Path("hobby/all")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Get all Persons info",
+    @Operation(summary = "Get all Persons with given hobby",
             tags = {"person"},
             responses = {
                 @ApiResponse(
@@ -377,6 +377,21 @@ public class PersonResource {
             })
     public String getDeleting() {
         return FACADE.emptyDB();
+    }
+    
+    @GET
+    @Path("all")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Get all Persons info",
+            tags = {"person"},
+            responses = {
+                @ApiResponse(
+                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonOutDTO.class))),
+                @ApiResponse(responseCode = "200", description = "The Requested Persons"),
+                @ApiResponse(responseCode = "404", description = "Persons not found")})
+
+    public List<PersonDTO> getAllPersons() {
+        return FACADE.getAllPersons();
     }
 
 }
