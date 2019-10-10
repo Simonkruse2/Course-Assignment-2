@@ -121,7 +121,15 @@ public class PersonFacade {
     }
 
     // empty production database
-    public void getAllZipCodes() {
+    public List<Address> getAllZipCodes() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<Address> query
+                    = em.createQuery("Select a from Address a", Address.class);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
     }
 
     public String emptyDB() {

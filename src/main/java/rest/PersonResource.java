@@ -1,5 +1,6 @@
 package rest;
 
+import dto.AddressOutDTO;
 import dto.HobbyOutDTO;
 import dto.PersonOutDTO;
 import dto.CityInfoOutDTO;
@@ -215,12 +216,19 @@ public class PersonResource {
                         content = @Content(mediaType = "application/json", schema = @Schema(implementation = CityInfoOutDTO.class))),
                 @ApiResponse(responseCode = "200", description = "The Requested Persons"),
                 @ApiResponse(responseCode = "404", description = "Person not found")})
-    public List<CityInfoOutDTO> getAllZipCodes() {
-        //dummy data
-        List<CityInfoOutDTO> zipcodes = new ArrayList<>();
-        zipcodes.add(new CityInfoOutDTO(new CityInfo(1234, "ABC")));
-        zipcodes.add(new CityInfoOutDTO(new CityInfo(5678, "DEF")));
-        return zipcodes;
+    public List<AddressOutDTO> getAllZipCodes() {
+        List<Address> addList = FACADE.getAllZipCodes();
+        List<AddressOutDTO> DTOList = new ArrayList();
+
+        addList.forEach((address) -> {
+            DTOList.add(new AddressOutDTO(address));
+        });
+        //           Same as 
+//        for (Address address : addList) {
+//            DTOList.add(new AddressOutDTO(address));
+//        }
+
+        return DTOList;
     }
 
     //    Get all persons with a given hobby(i.e. golf)
@@ -288,7 +296,7 @@ public class PersonResource {
                 @ApiResponse(responseCode = "200", description = "Person with added hobby"),
                 @ApiResponse(responseCode = "400", description = "Not all arguments provided with the body")
             })
-    public PersonOutDTO addHobby(PersonOutDTO person){
+    public PersonOutDTO addHobby(PersonOutDTO person) {
         if (person.getFirstName() == null || person.getLastName() == null || person.getEmail() == null || person.getAddress() == null) {
             throw new WebApplicationException("Not all required arguments included", 400);
         }
@@ -341,7 +349,7 @@ public class PersonResource {
                 @ApiResponse(responseCode = "200", description = "The Newly created Person"),
                 @ApiResponse(responseCode = "400", description = "Not all arguments provided with the body")
             })
-    public PersonDTO createPerson(PersonDTO person){
+    public PersonDTO createPerson(PersonDTO person) {
         if (person.getFirstName() == null || person.getLastName() == null || person.getEmail() == null || person.getStreet() == null || person.getZipcode() == 0) {
             throw new WebApplicationException("Not all required arguments included", 400);
         }
