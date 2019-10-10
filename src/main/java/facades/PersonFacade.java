@@ -1,5 +1,6 @@
 package facades;
 
+import dto.CityInfoOutDTO;
 import dto.PersonDTO;
 import dto.PersonHobbyOutDTO;
 import entities.Address;
@@ -7,7 +8,10 @@ import entities.CityInfo;
 import entities.Hobby;
 import entities.Person;
 import entities.Phone;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -121,12 +125,30 @@ public class PersonFacade {
     }
 
     // empty production database
-    public List<Address> getAllZipCodes() {
+    public List<CityInfoOutDTO> getAllZipCodes() {
         EntityManager em = emf.createEntityManager();
+        List<CityInfoOutDTO> cityArr = new ArrayList();
+        List<Integer> city = new ArrayList();
+
         try {
-            TypedQuery<Address> query
-                    = em.createQuery("Select a from Address a", Address.class);
-            return query.getResultList();
+            TypedQuery<CityInfo> query
+                    = em.createQuery("Select c from CityInfo c", CityInfo.class);
+
+            for (CityInfo cityInfo : query.getResultList()) {
+                if (!city.contains(cityInfo.getZipCode())) {
+                    city.add(cityInfo.getZipCode());
+                    cityArr.add(new CityInfoOutDTO(cityInfo));
+                }
+            }
+            //            ^^ SAME AS ^^
+//            query.getResultList().stream().filter((cityInfo) -> (!city.contains(cityInfo.getZipCode()))).map((cityInfo) -> {
+//                city.add(cityInfo.getZipCode());
+//                return cityInfo;
+//            }).forEachOrdered((cityInfo) -> {
+//                cityArr.add(new CityInfoOutDTO(cityInfo));
+//            });
+
+            return cityArr;
         } finally {
             em.close();
         }
@@ -158,7 +180,7 @@ public class PersonFacade {
             personToEdit.setFirstName(person.getFirstName());
             personToEdit.setLastName(person.getLastName());
             personToEdit.setEmail(person.getEmail());
-            
+
             em.getTransaction().begin();
             em.merge(personToEdit);
             em.getTransaction().commit();

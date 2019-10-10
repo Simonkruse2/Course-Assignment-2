@@ -216,19 +216,8 @@ public class PersonResource {
                         content = @Content(mediaType = "application/json", schema = @Schema(implementation = CityInfoOutDTO.class))),
                 @ApiResponse(responseCode = "200", description = "The Requested Persons"),
                 @ApiResponse(responseCode = "404", description = "Person not found")})
-    public List<AddressOutDTO> getAllZipCodes() {
-        List<Address> addList = FACADE.getAllZipCodes();
-        List<AddressOutDTO> DTOList = new ArrayList();
-
-        addList.forEach((address) -> {
-            DTOList.add(new AddressOutDTO(address));
-        });
-        //           Same as 
-//        for (Address address : addList) {
-//            DTOList.add(new AddressOutDTO(address));
-//        }
-
-        return DTOList;
+    public List<CityInfoOutDTO> getAllZipCodes() {
+        return FACADE.getAllZipCodes();
     }
 
     //    Get all persons with a given hobby(i.e. golf)
