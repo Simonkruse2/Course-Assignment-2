@@ -34,6 +34,7 @@ function createPerson(e) {
     var zipcode = document.querySelector("#zipcode").value;
     if (zipcode.length !== 4){
         alert("Zipcode length must be 4 digits");
+        return;
     }
     let options = {
         method: "POST",
