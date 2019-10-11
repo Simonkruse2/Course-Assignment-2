@@ -1,4 +1,4 @@
-const GETALLPERSONSUTTON = document.querySelector("#getAllPersonsPage");
+const GETALLPERSONBUTTON = document.querySelector("#getAllPersonsPage");
 const GETALLPERSONSCONTENT = document.querySelector("#content");
 
 function personsToTable(persons) {
@@ -141,4 +141,4 @@ function sortByNumbers(n) {
 
 //Eventlisteners
 
-GETALLPERSONSUTTON.addEventListener("click", makeGetAllPersonsContent);
+GETALLPERSONBUTTON.addEventListener("click", makeGetAllPersonsContent);
