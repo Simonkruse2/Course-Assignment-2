@@ -244,4 +244,11 @@ public class PersonFacadeTest {
        assertEquals(allpersons.size(), 2);
        assertThat(allpersons.get(0).getFirstName(), either(containsString("Gurli")).or(containsString("Gunnar")));
    }
+   
+   @Test
+   public void testAddHobby(){
+       PersonHobbyOutDTO pDTO = facade.addHobby(new Hobby("TestHobby", "This is a test hobby"), p1.getPersonID());
+       assertEquals(pDTO.getHobbies().size(), 3);
+       assertEquals(pDTO.getHobbies().get(2).getName(), "TestHobby");
+   }
 }
