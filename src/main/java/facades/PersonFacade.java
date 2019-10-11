@@ -290,9 +290,29 @@ public class PersonFacade {
             List<Person> persons = query.getResultList();
             List<PersonDTO> pDTOs = new ArrayList<>();
             for (Person person : persons) {
-                pDTOs.add(new PersonDTO(person.getEmail(), person.getFirstName(), person.getLastName(), person.getAddress().getStreet(), person.getAddress().getCityInfo().getZipCode()));
+                PersonDTO pDTO = new PersonDTO(person.getEmail(), person.getFirstName(), person.getLastName(), person.getAddress().getStreet(), person.getAddress().getCityInfo().getZipCode());
+                pDTO.setPersonID(person.getPersonID());
+                pDTOs.add(pDTO);
+                
             }
             return pDTOs;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public PersonHobbyOutDTO addHobby(Hobby hobby, int personID) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            Person p = em.find(Person.class, personID);
+            p.addHobby(hobby);
+            em.getTransaction().begin();
+            em.persist(p);
+            em.getTransaction().commit();
+            String address = p.getAddress().getStreet() + ", " + p.getAddress().getCityInfo().getZipCode();
+            PersonHobbyOutDTO pDTO = new PersonHobbyOutDTO(p.getEmail(), p.getFirstName(), p.getLastName(), address, p.getHobbies());
+            pDTO.setPersonID(p.getPersonID());
+            return pDTO;
         } finally {
             em.close();
         }
@@ -301,7 +321,7 @@ public class PersonFacade {
 //    public static void main(String[] args) {
 //        EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.DEV, EMF_Creator.Strategy.CREATE);
 //        PersonFacade pf = PersonFacade.getFacadeExample(emf);
-//        pf.createPerson("email", "firstName", "lastName", "street", 0);
-//        System.out.println(pf.getAllPersons());
+//        //pf.createPerson("email", "firstName", "lastName", "street", 0);
+//        System.out.println(pf.addHobby(new Hobby("TestHobby2", "This is another test hobby"), 1));
 //    }
 }
