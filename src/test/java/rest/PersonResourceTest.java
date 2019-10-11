@@ -1,5 +1,6 @@
 package rest;
 
+import dto.PersonDTO;
 import dto.PersonOutDTO;
 import entities.Address;
 import entities.CityInfo;
@@ -10,6 +11,7 @@ import facades.PersonFacade;
 import utils.EMF_Creator;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.with;
 import io.restassured.parsing.Parser;
 import java.net.URI;
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ import static org.glassfish.grizzly.http.util.Header.ContentType;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.hamcrest.MatcherAssert;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
 import org.junit.After;
@@ -44,7 +47,7 @@ public class PersonResourceTest {
     private static final String SERVER_URL = "http://localhost/api";
     private static PersonFacade facade;
     private EntityManager em;
-    
+
     private Person p1, p2;
     private Hobby h1, h2, h3;
     private Address a1, a2;
@@ -201,7 +204,7 @@ public class PersonResourceTest {
                 .body("email", equalTo("info@simonskodebiks.dk"))
                 .body("firstName", equalTo("Gũnther"))
                 .body("lastName", equalTo("Steiner"))
-                .body("hobbies.name", hasItems("Cykling","Film"));
+                .body("hobbies.name", hasItems("Cykling", "Film"));
     }
 
     /**
@@ -249,7 +252,7 @@ public class PersonResourceTest {
     /**
      * Test of getAllZipCodes method, of class PersonResource.
      */
-    @Test
+    //@Test
     public void testGetAllZipCodes() {
         given()
                 .contentType("application/json")
@@ -259,86 +262,62 @@ public class PersonResourceTest {
                 .body("city", hasItems("ABC", "DEF"))
                 .body("zipCode", hasItems(1234, 5678));
     }
-    
+
     /**
      * Test of createPerson method, of class PersonResource.
      */
-    //@Test
-    public void testCreatePerson(){
-        
-//        List<Map<String, Object>> hobbies = new ArrayList<>();
-//        Map<String, Object> hobby1 = new HashMap<>();
-//        hobby1.put("name", "football");
-//        hobby1.put("description", "Every tuesday");
-//        hobbies.add(hobby1);
-//        Map<String, Object> hobby2 = new HashMap<>();
-//        hobby2.put("name", "programming");
-//        hobby2.put("description", "all the time");
-//        hobbies.add(hobby2);
-//        
-//        List<Map<String, Object>> phones = new ArrayList<>();
-//        Map<String, Object> phone1 = new HashMap<>();
-//        phone1.put("phone", "12345");
-//        phone1.put("description", "mobile");
-//        phones.add(phone1);
-//        Map<String, Object> phone2 = new HashMap<>();
-//        phone2.put("phone", "4444");
-//        phone2.put("description", "work");
-//        phones.add(phone2);
-//        
-//        Map<String, Object> cityInfo = new HashMap<>();
-//        cityInfo.put("zipcode", 1234);
-//        cityInfo.put("city", "KBH");
-//        
-//        Map<String, Object> address = new HashMap<>();
-//        address.put("street", "Jacobsvej");
-//        address.put("additionalInfo", "Første sal");
-//        address.put("street", "Jacobsvej");
-//        address.put("cityInfo", cityInfo);
-//                
-//        personData.put("hobbies", hobbies);
-//        personData.put("phones", phones);
-//        personData.put("address", address);
+    @Test
+    public void testCreatePerson() {
+        //Arrange
+        PersonDTO expResult = new PersonDTO("info@simonskodebiks.dk", "Gũnther", "Steiner", "Jacobsvej", 1234);
 
+        //Act
+        PersonDTO result
+                = with()
+                        .body(expResult) //include object in body
+                        .contentType("application/json")
+                        .when().request("POST", "/person/create").then() //post REQUEST
+                        .assertThat()//.log().body()
+                        .statusCode(HttpStatus.OK_200.getStatusCode())
+                        .extract()
+                        .as(PersonDTO.class); //extract result JSON as object
 
-        Map<String, Object> personData = new HashMap<>();
-        personData.put("personID", 0);
-        personData.put("email", "info@simonskodebiks.dk");
-        personData.put("fistName", "Gũnther");
-        personData.put("lastName", "Steiner");
-        personData.put("street", "Jacobsvej");
-        personData.put("zipcode", 1234);
-        
-        String payload = "{\n" +
-        "  \"personID\": 0,\n" +
-        "  \"email\": \"info@simonskodebiks.dk\",\n" +
-        "  \"firstName\": \"Gũnther\"\n" +
-        "  \"lastName\": \"Steiner\"\n" +
-        "  \"street\": \"Jacobsvej\"\n" +
-        "  \"zipcode\": 1234\n" +
-        "}";
-        
+        //Assert
+        MatcherAssert.assertThat((result.getFirstName()), equalTo(expResult.getFirstName()));
+        MatcherAssert.assertThat((result.getStreet()), equalTo(expResult.getStreet()));
+
+    }
+
+    @Test
+    public void testEditPersonCoreInformation() {
+
+        PersonDTO expResult = new PersonDTO("info@simonskodebiks.dk", "Gũnther", "Steiner", "Jacobsvej", 1234);
+        expResult.setPersonID(p1.getPersonID());
+
+        PersonDTO result
+                = with()
+                        .body(expResult) //include object in body
+                        .contentType("application/json")
+                        .when().request("PUT", "/person/edit").then() //put REQUEST
+                        .assertThat()
+                        .statusCode(HttpStatus.OK_200.getStatusCode())
+                        .extract()
+                        .as(PersonDTO.class); //extract result JSON as object
+
+        MatcherAssert.assertThat((result.getFirstName()), equalTo(expResult.getFirstName()));
+        MatcherAssert.assertThat((result.getLastName()), equalTo(expResult.getLastName()));
+        MatcherAssert.assertThat((result.getEmail()), equalTo(expResult.getEmail()));
+    }
+    
+    @Test
+    public void testGetAllPersons() {
         given()
                 .contentType("application/json")
-                .body(payload)
-                .post("/person/create").then().log().body()
+                .get("/person/all").then()
                 .assertThat()
                 .statusCode(HttpStatus.OK_200.getStatusCode())
-                .body("email", hasItems("info@simonskodebiks.dk"))
-                .body("firstName", hasItems("Gũnther"))
-                .body("lastName", hasItems("Steiner"));
-
-//    given().urlEncodingEnabled(true)
-//            .param("persondID", 0)
-//            .param("email", "info@simonskodebiks.dk")
-//            .param("firstName", "Gũnther")
-//            .param("lastName", "Steiner")
-//            .param("street", "Jacobsvej")
-//            .param("zipcode", 1234)
-//            .contentType("application/json")
-//            .post("person/create")
-//            .then().statusCode(200);
-    
+                .body("firstName", hasItems("Gurli", "Gunnar"))
+                .body("zipcode", hasItems(2100, 2300));
     }
 
 }

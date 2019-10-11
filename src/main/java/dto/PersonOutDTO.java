@@ -22,7 +22,7 @@ public class PersonOutDTO {
     private String lastName;
     
     @Schema(required = true, example = "[{\"name\":\"football\",\"description\":\"Every tuesday\"}, {\"name\":\"programming\",\"description\":\"all the time\"}]")
-    private ArrayList<HobbyOutDTO> hobbies;
+    private ArrayList<HobbyDTO> hobbies;
     
     @Schema(required = true, example = "[{\"phone\":\"12345\",\"description\":\"mobile\"}, {\"phone\":\"4444\",\"description\":\"work\"}]")
     private ArrayList<PhoneOutDTO> phones;
@@ -32,11 +32,11 @@ public class PersonOutDTO {
             + " \"cityInfo\":{\"zipcode\":1234,\"city\":\"KBH\"}}")
     private AddressOutDTO address;
     
-    public ArrayList<HobbyOutDTO> getHobbies() {
+    public ArrayList<HobbyDTO> getHobbies() {
         return hobbies;
     }
     
-    public void setHobbies(ArrayList<HobbyOutDTO> hobbies) {
+    public void setHobbies(ArrayList<HobbyDTO> hobbies) {
         this.hobbies = hobbies;
     }
     
@@ -50,12 +50,12 @@ public class PersonOutDTO {
         }
         List<Hobby> hobbies = person.getHobbies();
         for (Hobby hobby : hobbies) {
-            this.hobbies.add(new HobbyOutDTO(hobby));
+            this.hobbies.add(new HobbyDTO(hobby));
         }
         this.address = new AddressOutDTO(person.getAddress());
     }
     
-    public PersonOutDTO(String email, String firstName, String lastName, ArrayList<HobbyOutDTO> hobbies) {
+    public PersonOutDTO(String email, String firstName, String lastName, ArrayList<HobbyDTO> hobbies) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;

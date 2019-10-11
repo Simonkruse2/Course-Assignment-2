@@ -1,5 +1,6 @@
 package dto;
 
+import entities.Person;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public class PersonDTO {
@@ -20,6 +21,12 @@ public class PersonDTO {
     
     @Schema(required = true, example = "1234")
     private int zipcode;
+
+    public PersonDTO(Person person) {
+        firstName = person.getFirstName();
+        lastName = person.getLastName();
+        email = person.getEmail();
+    }
 
     public int getPersonID() {
         return personID;

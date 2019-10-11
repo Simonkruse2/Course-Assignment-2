@@ -82,7 +82,12 @@ public class PersonHobbyOutDTO {
     public void setHobbies(List<Hobby> hobbies) {
         this.hobbies = hobbies;
     }
+
+    @Override
+    public String toString() {
+        return "PersonHobbyOutDTO{" + "personID=" + personID + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", adress=" + adress + ", hobbies=" + hobbies + '}';
+    }
     
- 
+    
     
 }

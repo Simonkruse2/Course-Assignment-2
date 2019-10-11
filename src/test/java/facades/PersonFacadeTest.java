@@ -1,5 +1,6 @@
 package facades;
 
+import dto.HobbyDTO;
 import dto.PersonDTO;
 import dto.PersonHobbyOutDTO;
 import entities.Address;
@@ -17,6 +18,8 @@ import org.junit.jupiter.api.BeforeAll;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import utils.EMF_Creator;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  *
@@ -235,4 +238,18 @@ public class PersonFacadeTest {
         assertNotEquals(p1DTO.getStreet(), pDTO.getStreet());
         assertNotEquals(p1DTO.getZipcode(), pDTO.getZipcode());
     }
+    
+   @Test
+   public void testGetAllPersons(){
+       List<PersonDTO> allpersons = facade.getAllPersons();
+       assertEquals(allpersons.size(), 2);
+       assertThat(allpersons.get(0).getFirstName(), either(containsString("Gurli")).or(containsString("Gunnar")));
+   }
+   
+   @Test
+   public void testAddHobby(){
+       PersonHobbyOutDTO pDTO = facade.addHobby(new HobbyDTO("TestHobby", "This is a test hobby"), p1.getPersonID());
+       assertEquals(pDTO.getHobbies().size(), 3);
+       assertEquals(pDTO.getHobbies().get(2).getName(), "TestHobby");
+   }
 }
