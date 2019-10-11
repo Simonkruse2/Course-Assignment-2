@@ -1,6 +1,7 @@
 package facades;
 
 import dto.CityInfoOutDTO;
+import dto.HobbyDTO;
 import dto.PersonDTO;
 import dto.PersonHobbyOutDTO;
 import entities.Address;
@@ -301,11 +302,12 @@ public class PersonFacade {
         }
     }
     
-    public PersonHobbyOutDTO addHobby(Hobby hobby, int personID) {
+    public PersonHobbyOutDTO addHobby(HobbyDTO hobbyDTO, int personID) {
         EntityManager em = emf.createEntityManager();
         try {
             Person p = em.find(Person.class, personID);
-            p.addHobby(hobby);
+            Hobby h = new Hobby(hobbyDTO.getName(), hobbyDTO.getDescription());
+            p.addHobby(h);
             em.getTransaction().begin();
             em.persist(p);
             em.getTransaction().commit();

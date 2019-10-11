@@ -1,7 +1,7 @@
 package rest;
 
 import dto.AddressOutDTO;
-import dto.HobbyOutDTO;
+import dto.HobbyDTO;
 import dto.PersonOutDTO;
 import dto.CityInfoOutDTO;
 import dto.PersonDTO;
@@ -165,9 +165,9 @@ public class PersonResource {
             // for test
             List<PersonOutDTO> persons = new ArrayList<>();
             PersonOutDTO p = new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
-            HobbyOutDTO h1 = new HobbyOutDTO(new Hobby("fodbold", "hver tirsdag"));
-            HobbyOutDTO h2 = new HobbyOutDTO(new Hobby("fodbold", "hver onsdag"));
-            ArrayList<HobbyOutDTO> hobbies = new ArrayList<>();
+            HobbyDTO h1 = new HobbyDTO(new Hobby("fodbold", "hver tirsdag"));
+            HobbyDTO h2 = new HobbyDTO(new Hobby("fodbold", "hver onsdag"));
+            ArrayList<HobbyDTO> hobbies = new ArrayList<>();
             hobbies.add(h1);
             hobbies.add(h2);
             p.setHobbies(hobbies);
@@ -177,9 +177,9 @@ public class PersonResource {
             // here should be something real :-)
             List<PersonOutDTO> persons = new ArrayList<>();
             PersonOutDTO p = new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
-            HobbyOutDTO h1 = new HobbyOutDTO(new Hobby("fodbold", "hver tirsdag"));
-            HobbyOutDTO h2 = new HobbyOutDTO(new Hobby("fodbold", "hver onsdag"));
-            ArrayList<HobbyOutDTO> hobbies = new ArrayList<>();
+            HobbyDTO h1 = new HobbyDTO(new Hobby("fodbold", "hver tirsdag"));
+            HobbyDTO h2 = new HobbyDTO(new Hobby("fodbold", "hver onsdag"));
+            ArrayList<HobbyDTO> hobbies = new ArrayList<>();
             hobbies.add(h1);
             hobbies.add(h2);
             p.setHobbies(hobbies);
@@ -196,12 +196,12 @@ public class PersonResource {
             tags = {"hobby"},
             responses = {
                 @ApiResponse(
-                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = HobbyOutDTO.class))),
+                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = HobbyDTO.class))),
                 @ApiResponse(responseCode = "200", description = "The count of a given hobby"),
                 @ApiResponse(responseCode = "404", description = "Hobby not found")})
     public int getCountPersonByHobby(@PathParam("hobby") String hobby) {
-        List<HobbyOutDTO> hobbies = new ArrayList();
-        hobbies.add(new HobbyOutDTO(new Hobby("Tennis", "Green ball")));
+        List<HobbyDTO> hobbies = new ArrayList();
+        hobbies.add(new HobbyDTO(new Hobby("Tennis", "Green ball")));
         return hobbies.size();
     }
 
@@ -266,8 +266,8 @@ public class PersonResource {
         return FACADE.editPCI(person);
 //        //dummy data
 //        PersonOutDTO p = new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
-//        HobbyOutDTO h1 = new HobbyOutDTO(new Hobby("fodbold", "hver tirsdag"));
-//        HobbyOutDTO h2 = new HobbyOutDTO(new Hobby("fodbold", "hver onsdag"));
+//        HobbyDTO h1 = new HobbyDTO(new Hobby("fodbold", "hver tirsdag"));
+//        HobbyDTO h2 = new HobbyDTO(new Hobby("fodbold", "hver onsdag"));
 //        ArrayList<HobbyOutDTO> hobbies = new ArrayList<>();
 //        hobbies.add(h1);
 //        hobbies.add(h2);
@@ -291,8 +291,8 @@ public class PersonResource {
         }
         //dummy data
         PersonOutDTO p = new PersonOutDTO(new Person("info@simonskodebiks.dk", "Gũnther", "Steiner", new Address("Street", "addInfo", new CityInfo(123, "KBH"))));
-        HobbyOutDTO hobby = new HobbyOutDTO(new Hobby("golf", "totalt handicapped"));
-        ArrayList<HobbyOutDTO> hobbies = new ArrayList<>();
+        HobbyDTO hobby = new HobbyDTO(new Hobby("golf", "totalt handicapped"));
+        ArrayList<HobbyDTO> hobbies = new ArrayList<>();
         hobbies.add(hobby);
         person.setHobbies(hobbies);
         return person;

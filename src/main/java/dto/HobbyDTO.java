@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author simon
  */
 @Schema(name = "HobbyInfo")
-public class HobbyOutDTO {
+public class HobbyDTO {
 
     private int hobbyID;
     @Schema(required = true, example = "Football")
@@ -16,12 +16,19 @@ public class HobbyOutDTO {
     @Schema(required = true, example = "A game revolving around a ball")
     private String description;
 
-    public HobbyOutDTO(Hobby hobby) {
+    public HobbyDTO(Hobby hobby) {
         this.name = hobby.getName();
         this.description = hobby.getDescription();
     }
 
-    public HobbyOutDTO() {
+    public HobbyDTO(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+    
+    
+
+    public HobbyDTO() {
     }
 
     public String getName() {

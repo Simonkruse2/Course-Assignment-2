@@ -1,5 +1,6 @@
 package facades;
 
+import dto.HobbyDTO;
 import dto.PersonDTO;
 import dto.PersonHobbyOutDTO;
 import entities.Address;
@@ -247,7 +248,7 @@ public class PersonFacadeTest {
    
    @Test
    public void testAddHobby(){
-       PersonHobbyOutDTO pDTO = facade.addHobby(new Hobby("TestHobby", "This is a test hobby"), p1.getPersonID());
+       PersonHobbyOutDTO pDTO = facade.addHobby(new HobbyDTO("TestHobby", "This is a test hobby"), p1.getPersonID());
        assertEquals(pDTO.getHobbies().size(), 3);
        assertEquals(pDTO.getHobbies().get(2).getName(), "TestHobby");
    }
