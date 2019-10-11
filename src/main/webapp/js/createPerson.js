@@ -14,7 +14,7 @@ function makeInputFields() {
     <input type=\"submit\" id=\"createPersonButton\" value=\"Create Person\">\n\
     </form><br><br>\n\
     <div id=\"confirmation\"></div>"
-    ;
+            ;
 }
 
 function makeCreatePersonPageContent(e) {
@@ -32,7 +32,7 @@ function createPerson(e) {
     var email = document.querySelector("#email").value;
     var street = document.querySelector("#street").value;
     var zipcode = document.querySelector("#zipcode").value;
-    if (zipcode.length !== 4){
+    if (zipcode.length !== 4) {
         alert("Zipcode length must be 4 digits");
         return;
     }
@@ -43,13 +43,13 @@ function createPerson(e) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-                "firstName": firstName,
-                "lastName": lastName,
-                "email": email,
-                "street": street,
-                "zipcode": zipcode
+            "firstName": firstName,
+            "lastName": lastName,
+            "email": email,
+            "street": street,
+            "zipcode": zipcode
         })
-    }
+    };
 
 
     fetch(url, options)
