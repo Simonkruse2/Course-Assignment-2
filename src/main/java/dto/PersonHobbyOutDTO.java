@@ -21,7 +21,7 @@ public class PersonHobbyOutDTO {
     private String lastName;
     
     @Schema(required = true, example = "Monzavej 1, 2800 Lyngby")
-    private String adress;
+    private String address;
     
     @Schema(required = true, example = "[\"Football\",\"Programming\"]")
     private List<Hobby> hobbies;
@@ -31,7 +31,7 @@ public class PersonHobbyOutDTO {
         this.firstName = firstName;
         this.lastName = lastName;
         this.lastName = lastName;
-        this.adress = address;
+        this.address = address;
         this.hobbies = hobbies;
     }
 
@@ -67,12 +67,12 @@ public class PersonHobbyOutDTO {
         this.lastName = lastName;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public List<Hobby> getHobbies() {
@@ -85,7 +85,7 @@ public class PersonHobbyOutDTO {
 
     @Override
     public String toString() {
-        return "PersonHobbyOutDTO{" + "personID=" + personID + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", adress=" + adress + ", hobbies=" + hobbies + '}';
+        return "PersonHobbyOutDTO{" + "personID=" + personID + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", hobbies=" + hobbies + '}';
     }
     
     
